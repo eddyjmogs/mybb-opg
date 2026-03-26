@@ -7,3 +7,4 @@ inc/plugins/logs/
 admin/backups/
 .vscode
 config.php
+inc/debug_log.txt

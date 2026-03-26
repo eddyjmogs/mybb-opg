@@ -29666,3 +29666,186 @@ BACKTRACE:
   #3  newpoints_blockview_print()  [inc/class_plugins.php:142]
   #4  pluginSystem->run_hooks()  [printthread.php:214]
 
+[25-Mar-2026 21:21:33 America/Boise] PHP Deprecated:  Creation of dynamic property pluginSystem::$objects is deprecated in /home4/rovddqmy/public_html/inc/plugins/styleUsernames.php on line 31
+[25-Mar-2026 21:21:33 America/Boise] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home4/rovddqmy/public_html/inc/plugins/accountswitcher/as_functions.php on line 431
+[25-Mar-2026 21:21:33 America/Boise] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home4/rovddqmy/public_html/inc/plugins/accountswitcher/as_functions.php on line 435
+[25-Mar-2026 21:21:33 America/Boise] PHP Deprecated:  Creation of dynamic property phptpl_templates::$parsed_cache is deprecated in /home4/rovddqmy/public_html/inc/plugins/phptpl.php(70) : eval()'d code on line 18
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.614]  TYPE: E_WARNING  PID: 472828  MEM: 14336 KB
+FILE: global.php(1479) : eval()'d code  LINE: 121
+REQUEST: GET /showthread.php?tid=3396&action=newpost
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.194   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined variable $tiempo_recompensas
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [global.php(1479) : eval()'d code:121]
+  #3  eval()  [global.php:1479]
+  #4  require_once()  [showthread.php:28]
+
+[25-Mar-2026 21:21:33 America/Boise] PHP Deprecated:  Creation of dynamic property pluginSystem::$objects is deprecated in /home4/rovddqmy/public_html/inc/plugins/styleUsernames.php on line 31
+[25-Mar-2026 21:21:33 America/Boise] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home4/rovddqmy/public_html/inc/plugins/accountswitcher/as_functions.php on line 431
+[25-Mar-2026 21:21:33 America/Boise] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home4/rovddqmy/public_html/inc/plugins/accountswitcher/as_functions.php on line 435
+[25-Mar-2026 21:21:33 America/Boise] PHP Deprecated:  Creation of dynamic property phptpl_templates::$parsed_cache is deprecated in /home4/rovddqmy/public_html/inc/plugins/phptpl.php(70) : eval()'d code on line 18
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.895]  TYPE: E_WARNING  PID: 472828  MEM: 14336 KB
+FILE: global.php(1479) : eval()'d code  LINE: 121
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined variable $tiempo_recompensas
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [global.php(1479) : eval()'d code:121]
+  #3  eval()  [global.php:1479]
+  #4  require_once()  [showthread.php:28]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.896]  TYPE: E_WARNING  PID: 472828  MEM: 14336 KB
+FILE: inc/plugins/newpoints.php  LINE: 588
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined array key 228
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/plugins/newpoints.php:588]
+  #3  newpoints_getrules()  [inc/plugins/newpoints/core/hooks.php:1441]
+  #4  newpoints_blockview()  [inc/class_plugins.php:142]
+  #5  pluginSystem->run_hooks()  [showthread.php:478]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.896]  TYPE: E_WARNING  PID: 472828  MEM: 14336 KB
+FILE: inc/plugins/newpoints/core/hooks.php  LINE: 1442
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Trying to access array offset on value of type null
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/plugins/newpoints/core/hooks.php:1442]
+  #3  newpoints_blockview()  [inc/class_plugins.php:142]
+  #4  pluginSystem->run_hooks()  [showthread.php:478]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.903]  TYPE: E_WARNING  PID: 472828  MEM: 16384 KB
+FILE: inc/functions_post.php  LINE: 507
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined variable $expMin
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/functions_post.php:507]
+  #3  build_postbit()  [showthread.php:1128]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.903]  TYPE: E_WARNING  PID: 472828  MEM: 16384 KB
+FILE: inc/functions_post.php  LINE: 507
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined variable $expMin
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/functions_post.php:507]
+  #3  build_postbit()  [showthread.php:1128]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.905]  TYPE: E_WARNING  PID: 472828  MEM: 16384 KB
+FILE: inc/functions_post.php(1433) : eval()'d code  LINE: 6
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined array key "secret_identity_active"
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/functions_post.php(1433) : eval()'d code:6]
+  #3  eval()  [inc/functions_post.php:1433]
+  #4  build_postbit()  [showthread.php:1128]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.905]  TYPE: E_WARNING  PID: 472828  MEM: 16384 KB
+FILE: inc/functions_post.php(1433) : eval()'d code  LINE: 107
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined array key "control_akuma_completa"
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/functions_post.php(1433) : eval()'d code:107]
+  #3  eval()  [inc/functions_post.php:1433]
+  #4  build_postbit()  [showthread.php:1128]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.905]  TYPE: E_WARNING  PID: 472828  MEM: 16384 KB
+FILE: inc/functions_post.php(1433) : eval()'d code  LINE: 167
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined array key "secret_identity_active"
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/functions_post.php(1433) : eval()'d code:167]
+  #3  eval()  [inc/functions_post.php:1433]
+  #4  build_postbit()  [showthread.php:1128]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.905]  TYPE: E_WARNING  PID: 472828  MEM: 16384 KB
+FILE: inc/functions_post.php(1433) : eval()'d code  LINE: 195
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined array key "authorchange"
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/functions_post.php(1433) : eval()'d code:195]
+  #3  eval()  [inc/functions_post.php:1433]
+  #4  build_postbit()  [showthread.php:1128]
+
+──────────────────────────────────────────────────────────────────────
+[2026-03-25 21:21:33.905]  TYPE: E_WARNING  PID: 472828  MEM: 16384 KB
+FILE: inc/functions_post.php(1433) : eval()'d code  LINE: 226
+REQUEST: GET /showthread.php?tid=3396&pid=17097
+SCRIPT:  /home4/rovddqmy/public_html/showthread.php
+IP:      66.249.70.193   UA: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.7680.153 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+REFERER: N/A
+MESSAGE:
+  Undefined array key "control_akuma_completa"
+BACKTRACE:
+  #0  errorHandler->log_error()  [inc/class_error.php:231]
+  #1  errorHandler->error()  [inc/class_error.php:153]
+  #2  errorHandler->error_callback()  [inc/functions_post.php(1433) : eval()'d code:226]
+  #3  eval()  [inc/functions_post.php:1433]
+  #4  build_postbit()  [showthread.php:1128]
+
