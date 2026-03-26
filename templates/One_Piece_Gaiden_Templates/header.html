@@ -1,0 +1,761 @@
+<script type="text/javascript">
+
+// Función para alternar sidebar
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.toggle('active');
+}
+
+// Función para verificar mensajes privados sin leer
+function checkUnreadMessages() {
+  const pmAlert = document.querySelector('.pm_alert#pm_notice');
+  const homeIcon = document.querySelector('.user-panel-dropdown .fa-home');
+  const inboxIcon = document.querySelector('.dropdown-content .fa-folder-open-o');
+  
+  // Verificar si el elemento existe y está visible
+  if (pmAlert && pmAlert.style.display !== 'none' && window.getComputedStyle(pmAlert).display !== 'none') {
+    console.log("Mensajes sin leer detectados, agregando indicadores");
+    
+    // Hay mensajes sin leer, agregar indicadores
+    if (homeIcon && !homeIcon.querySelector('.pm-indicator')) {
+      const indicator = document.createElement('span');
+      indicator.className = 'pm-indicator';
+      homeIcon.style.position = 'relative';
+      homeIcon.appendChild(indicator);
+      console.log("Indicador agregado al icono home");
+    }
+    
+    if (inboxIcon && !inboxIcon.querySelector('.pm-indicator')) {
+      const indicator = document.createElement('span');
+      indicator.className = 'pm-indicator';
+      inboxIcon.style.position = 'relative';
+      inboxIcon.appendChild(indicator);
+      console.log("Indicador agregado al icono inbox");
+    }
+  } else {
+    console.log("No hay mensajes sin leer, removiendo indicadores");
+    
+    // No hay mensajes sin leer, remover indicadores
+    const indicators = document.querySelectorAll('.pm-indicator');
+    indicators.forEach(indicator => {
+      console.log("Removiendo indicador");
+      indicator.remove();
+    });
+  }
+}
+</script>
+
+<style>
+/* Estilos para mensajes de depuración en caso necesario */
+.debug-message {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  z-index: 9999;
+  display: none;
+}
+
+/* Estilos para los menús desplegables */
+.menu-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #1e1324;
+  min-width: 240px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1000;
+  border: 1px solid #333;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.menu-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.user-panel-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.user-panel-dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #1e1324;
+  min-width: 240px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1000;
+  border: 1px solid #333;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.user-panel-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Media queries para dispositivos móviles */
+@media screen and (max-width: 768px) {
+  .menu-dropdown .dropdown-content,
+  .user-panel-dropdown .dropdown-content {
+    min-width: 180px;
+    max-width: 200px;
+    right: -10px;
+    font-size: 13px;
+  }
+  
+  .dropdown-content a {
+    font-size: 13px;
+    padding: 3px 0;
+  }
+  
+  .dropdown-content .fa {
+    margin-right: 6px;
+    width: 10px;
+  }
+  
+  .dropdown-content .thead {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  
+  .dropdown-content .tcat {
+    padding: 4px 10px;
+  }
+  
+  .dropdown-content .trow1 {
+    padding: 3px 10px;
+  }
+  
+  .dropdown-content .trow1 a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.dropdown-content .thead {
+  background: #2a1f3a;
+  color: white;
+  padding: 8px 12px;
+  font-weight: bold;
+  border-bottom: 1px solid #333;
+}
+
+.dropdown-content .tcat {
+  background: #241938;
+  color: #da9039;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+}
+
+.dropdown-content .trow1 {
+  background: #1e1324;
+  padding: 4px 12px;
+  border-bottom: 1px solid #2a1f3a;
+}
+
+.dropdown-content .trow1:hover {
+  background: #2a1f3a;
+}
+
+.dropdown-content a {
+  color: #ccc;
+  text-decoration: none;
+  display: block;
+  padding: 4px 0;
+  font-size: 15px;
+}
+
+.dropdown-content a:hover {
+  color: #da9039;
+}
+
+.dropdown-content .fa {
+  margin-right: 8px;
+  width: 12px;
+}
+
+/* Mostrar todas las secciones por defecto en el hover del panel de usuario */
+.user-panel-dropdown .dropdown-content #usercppms_e,
+.user-panel-dropdown .dropdown-content #usercpprofile_e,
+.user-panel-dropdown .dropdown-content #usercpmisc_e {
+  display: block !important;
+}
+
+/* Ocultar las imágenes de expand/collapse en el panel de usuario */
+.user-panel-dropdown .dropdown-content .expcolimage {
+  display: none;
+}
+
+/* Colores para los iconos */
+.fa_xtra.orange { color: #da9039; }
+.fa_xtra.white { color: #fff; }
+.fa_xtra.grey { color: #999; }
+.fa_xtra.red { color: #e74c3c; }
+.fa_xtra.blue { color: #3498db; }
+.fa_xtra.green { color: #27ae60; }
+.fa_xtra.lgreen { color: #2ecc71; }
+
+/* Indicador de mensajes privados sin leer */
+.pm-indicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  z-index: 1001;
+  animation: pulse-red 2s infinite;
+}
+
+/* Animación para el indicador */
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 4px rgba(231, 76, 60, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+  }
+}
+
+/* Asegurar que los iconos tengan posición relativa */
+.user-panel-dropdown .fa-home,
+.dropdown-content .fa-folder-open-o {
+  position: relative;
+}
+
+/* Estilos base para el menú superior */
+.top-menu {
+  width: 100%;
+  overflow: hidden;
+}
+
+.menu-op {
+  width: 100%;
+}
+
+.menu-op ul {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-op ul li {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+
+</style>
+
+<div id="container">
+    <a name="top" id="top"></a>
+    <div id="header">
+        <div class="top-menu">
+            <div class="menu-op">
+                <ul>
+                    <li style="padding: 0px 0px 0px 0px; border-left: 0px;">
+                    </li>
+                    <li style="padding: 0px 10px;border-left: 0px;"><a href="/" style=" padding: 0; "><img src="/images/op/indice/SolMenu_One_Piece_Gaiden_Foro_Rol.png" style="height: 42px;"></a></li>
+                    <li><a href="https://onepiecegaiden.com/op/guias.php">Guías</a></li>
+                    <li><a href="{$mybb->settings['bburl']}/op/tecnicas.php">Técnicas</a></li>
+                    <li class="menu-dropdown">
+                        <a href="#" id="informacion">Información &dtrif;</a>
+                        <div class="dropdown-content">
+                            <div class="thead"><strong><i class="fa fa-info-circle"></i> Información General</strong></div>
+                            <div class="tcat">
+                                <span><i class="fa fa-dice"></i> Información</span>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/mapa_mundo.php"><i class="fa fa-map fa_xtra blue"></i> Mapa del Mundo</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/registro_virtudes.php"><i class="fa fa-star fa_xtra orange"></i> Virtudes y Defectos</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/objetos.php"><i class="fa fa-cube fa_xtra grey"></i> Objetos</a>
+                            </div>
+							<if $g_is_staff then>
+							<div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/objetos_unicos.php"><i class="fa fa-diamond fa_xtra blue"></i> Objetos Únicos</a>
+                            </div>
+							</if>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/estadisticas.php"><i class="fa fa-bar-chart fa_xtra green"></i> Censo</a>
+                            </div>
+                            <div class="tcat">
+                                <span><i class="fa fa-dice"></i> Prensa</span>
+                            </div>
+                            <div class="trow1">
+                                <a href="https://onepiecegaiden.com/op/periodico.php"><i class="fa fa-newspaper-o fa_xtra blue"></i> Periódico</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="https://onepiecegaiden.com/op/prensarosa.php"><i class="fa fa-heart fa_xtra red"></i> Prensa Rosa</a>
+                            </div>
+                            <div class="tcat">
+                                <span><i class="fa fa-dice"></i> Herramientas</span>
+                            </div>
+
+                            <if $mybb->user['uid'] != '0' then>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/calculadora.php"><i class="fa fa-calculator fa_xtra white"></i> Calculadora de Stats</a>
+                            </div>
+                            </if>
+                            <if $g_tiene_ficha == true then>
+                            <div class="trow1">
+                                <a href="https://onepiecegaiden.com/op/faq.php"><i class="fa fa-question-circle fa_xtra orange"></i> Consulta Punk Records</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/imagenes_ia.php" id="imagenesai"><i class="fa fa-picture-o fa_xtra blue"></i> Creador de imagenes</a>
+                            </div>
+                            </if>
+                            <if $g_is_staff then>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/redaccion_ia.php" id="redaccionai"><i class="fa fa-list-alt fa_xtra orange"></i> Creador de textos</a>
+                            </div>
+                            </if>
+                            <div class="tcat">
+                                <span><i class="fa fa-dice"></i> Multimedia</span>
+                            </div>
+                            <if $g_tiene_ficha == true then>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/anime.php" id="anime"><i class="fa fa-map-marker fa_xtra red"></i> Anime</a>
+                            </div>
+                            </if>
+							<if $g_tiene_ficha == true then>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/audiomanga.php" id="manga"><i class="fa fa-map-marker fa_xtra blue"></i> Manga ultimo capitulo</a>
+                            </div>
+                            </if>
+                        </div>
+                    </li>
+                    <li class="menu-dropdown">
+                        <a href="#" id="registros">Registros &dtrif;</a>
+                        <div class="dropdown-content">
+                            <div class="thead"><strong><i class="fa fa-clipboard"></i> Registros del Foro</strong></div>
+                            <div class="tcat">
+                                <span><i class="fa fa-dice"></i> Registros</span>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/akumas.php"><i class="fa fa-apple fa_xtra red"></i> Registro de Akumas</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/wanted.php"><i class="fa fa-user-secret fa_xtra orange"></i> Carteles Mundiales</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/compas.php"><i class="fa fa-users fa_xtra blue"></i> Registro de NPCs</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/registro_usuarios.php"><i class="fa fa-address-book fa_xtra green"></i> Registro de Usuarios</a>
+                            </div>
+							<div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/Calculadora_Tiers.php"><i class="fa fa-book fa_xtra blue"></i> Registro de Narraciones</a>
+                            </div>
+                            <div class="menu-separator"></div>
+                            <div class="tcat">
+                                <span><i class="fa fa-dice"></i> Tiradas</span>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/opg/tirada_akuma.php"><i class="fa fa-apple fa_xtra blue"></i> Tirada de Akumas</a>
+                            </div>
+                            <if $g_tiene_ficha == true then>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/opg/tirada_rey.php"><i class="fa fa-flash fa_xtra orange"></i> Tirada de Haki del Rey</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/opg/tirada_haki.php"><i class="fa fa-eye fa_xtra blue"></i> Tirada Despertar de Haki</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/opg/tirada_cofre.php"><i class="fa fa-database fa_xtra green"></i> Tirada de Cofres</a>
+                            </div>
+                            </if>
+                        </div>
+                    </li>
+                    <if $g_tiene_ficha == true then>
+                    <li class="menu-dropdown">
+                        <a href="#" id="rol">Rol &dtrif;</a>
+                        <div class="dropdown-content">
+                            <div class="thead"><strong><i class="fa fa-gamepad"></i> Acciones de Rol</strong></div>
+                            <div class="tcat">
+                                <span><i class="fa fa-dice"></i> Tiendas</span>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/tienda.php"><i class="fa fa-shopping-cart fa_xtra blue"></i> Tienda General</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/tienda_kuros.php"><i class="fa fa-shopping-cart fa_xtra orange"></i> Tienda de Kuros</a>
+                            </div>
+                            <if !empty($g_ficha['rango_inframundo']) && $g_ficha['rango_inframundo'] != 'Sin rango' then>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/mercado_negro.php"><i class="fa fa-shopping-cart fa_xtra black"></i> Mercado Negro</a>
+                            </div>
+                            </if>
+                            <div class="menu-separator"></div>
+                            <div class="tcat">
+                                <span><i class="fa fa-dice"></i> Gestión</span>
+                            </div>
+<!--                             <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/mejoras.php"><i class="fa fa-level-up fa_xtra green"></i> Mejoras de PJ</a>
+                            </div> -->
+<!--                             <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/inventario.php?uid={$mybb->user['uid']}"><i class="fa fa-briefcase fa_xtra grey"></i> Inventario</a>
+                            </div> -->
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/viajes.php"><i class="fa fa-ship fa_xtra blue"></i> Viajes</a>
+                            </div>
+                            <if $g_tiene_ficha == true then>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/intercambio.php"><i class="fa fa-exchange fa_xtra orange"></i> Intercambio de PJs</a>
+                            </div>
+                            </if>
+                            <if $g_tiene_ficha == true then>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/recompensas.php" id="recompensas"><i class="fa fa-trophy fa_xtra orange"></i> Recompensa de Posts</a>
+								<div id="recompensas-tiempo-horas" class="timer-display" style="display: none;"></div>
+                            </div>
+                            </if>
+                            <div class="menu-separator"></div>
+                            <div class="tcat">
+                                <span><i class="fa fa-dumbbell"></i> Entrenamiento</span>
+                            </div>
+                            <div class="trow1 menu-item-with-timer">
+                                <a href="{$mybb->settings['bburl']}/op/oficios.php" id="oficio"><i class="fa fa-wrench fa_xtra white"></i> Entrenar Oficio</a>
+                                <div id="oficio-tiempo" class="timer-display" style="display: none;"></div>
+                            </div>
+                            <div class="trow1 menu-item-with-timer">
+                                <a href="{$mybb->settings['bburl']}/op/entrenamiento.php" id="entrenar"><i class="fa fa-level-up fa_xtra red"></i> Entrenar PJ</a>
+                                <div id="entrenar-tiempo" class="timer-display" style="display: none;"></div>
+                            </div>
+                            <div class="trow1 menu-item-with-timer">
+                                <a href="{$mybb->settings['bburl']}/op/entrenamiento_tecnicas.php" id="tecnicas"><i class="fa fa-magic fa_xtra blue"></i> Entrenar Técnicas</a>
+                                <div id="tecnicas-tiempo" class="timer-display" style="display: none;"></div>
+                            </div>
+                            <div class="trow1 menu-item-with-timer">
+                                <a href="{$mybb->settings['bburl']}/op/crafteo.php" id="crafteo"><i class="fa fa-cogs fa_xtra orange"></i> Craftear items</a>
+                                <div id="crafteo-tiempo" class="timer-display" style="display: none;"></div>
+                            </div>
+                            <div class="trow1 menu-item-with-timer">
+                                <a href="{$mybb->settings['bburl']}/op/creacion.php" id="creaciones"><i class="fa fa-cogs fa_xtra green"></i> Creaciones</a>
+                                <div id="creaciones-tiempo" class="timer-display" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </li>
+                    </if>
+                    <if $g_tiene_ficha == false && $g_uid != 0 then><li><a href="{$mybb->settings['bburl']}/op/ficha.php?uid={$mybb->user['uid']}" style=" color: #da9039; ">Nueva Ficha</a></li></if>	
+                    <if $g_tiene_ficha == true then><li><a href="{$mybb->settings['bburl']}/op/ficha.php?uid={$mybb->user['uid']}">Ficha</a></li></if>
+                    <if $mybb->user['uid'] != '0' then>
+                    <li class="menu-dropdown">
+                        <a href="#">Usuario &dtrif;</a>
+                        <div class="dropdown-content">
+                            <div class="thead"><strong><i class="fa fa-user"></i> Panel de Usuario</strong></div>
+                            
+							<if $g_is_staff then>
+                            <div class="tcat">
+                                <span><i class="fa fa-shield"></i> Administración</span>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/admin/index.php"><i class="fa fa-cogs fa_xtra red"></i> Consola Admin</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/staff/consola_mod.php"><i class="fa fa-shield fa_xtra orange"></i> Consola de Mods</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/forumdisplay.php?fid=27"><i class="fa fa-tree fa_xtra green"></i> Jardín Secreto</a>
+                            </div>
+                            <div class="menu-separator"></div>
+                            </if>
+							<if $g_is_narra then>
+                            <div class="tcat">
+                                <span><i class="fa fa-shield"></i> Administración</span>
+                            </div>
+<!--                             <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/admin/index.php"><i class="fa fa-cogs fa_xtra red"></i> Consola Admin</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/staff/consola_mod.php"><i class="fa fa-shield fa_xtra orange"></i> Consola de Mods</a>
+                            </div> -->
+							<div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/staff/consola_narras.php"><i class="fa fa-shield fa_xtra orange"></i> Consola de Narradores</a>
+                            </div>
+<!--                             <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/forumdisplay.php?fid=27"><i class="fa fa-tree fa_xtra green"></i> Jardín Secreto</a>
+                            </div> -->
+                            <div class="menu-separator"></div>
+                            </if>
+							
+							
+                            <div class="tcat">
+                                <span><i class="fa fa-cogs"></i> Gestión</span>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/op/peticiones.php"><i class="fa fa-file-text fa_xtra blue"></i> Petición Administrativa</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/private.php"><i class="fa fa-envelope fa_xtra orange"></i> Mensajes Privados</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/usercp.php"><i class="fa fa-user fa_xtra white"></i> Panel de Usuario</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/usercp.php?action=drafts"><i class="fa fa-file-code-o fa_xtra grey"></i> Borradores de Posts</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/usercp.php?action=subscriptions"><i class="fa fa-bookmark fa_xtra green"></i> Temas Suscritos</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/usercp.php?action=as_edit"><i class="fa fa-users fa_xtra blue"></i> Gestión Multicuenta</a>
+                            </div>
+                            <div class="trow1">
+                                <a href="{$mybb->settings['bburl']}/search.php"><i class="fa fa-search fa_xtra white"></i> Búsqueda</a>
+                            </div>
+                        </div>
+                    </li>
+                    </if>
+                    <if $mybb->user['uid'] == '0' then><li><a href="{$mybb->settings['bburl']}/member.php?action=login" 
+                                                              onclick="$('#quick_login').modal({ fadeDuration: 250, keepelement: true, zIndex: (typeof modal_zindex !== 'undefined' ? modal_zindex : 9999) }); return false;">Iniciar Sesión</a></li></if>
+                    <if $mybb->user['uid'] == '0' then><li><a href="{$mybb->settings['bburl']}/member.php?action=register">Regístrate</a></li></if>
+                    <if $mybb->user['uid'] != '0' then>
+                        <li style=" border-right: 0px; ">
+                            <a href="#" id="ficha">{$mybb->user['username']} &dtrif;</a>
+                            <ul>
+                                {$as_header_dropdown}
+                                <if $mybb->user['uid'] != '0' then><li><a href="{$mybb->settings['bburl']}/member.php?action=logout&amp;logoutkey={$mybb->user['logoutkey']}">Desconectarse</a></li></if>
+                            </ul>
+                        </li>
+                        <li style="padding: 0px 0px;border-right: 0px;border-left: 0px;"><a href="{$mybb->settings['bburl']}/member.php?action=profile&uid={$mybb->user['uid']}" style=" padding: 0; ">
+                            <if $mybb->user['avatar'] then>
+                                <img src="{$mybb->user['avatar']}" style="height: 46px;width: 46px;margin-top: -10px;border: 2px solid #1e1224;position: relative;top: 5px;">
+                            </if>
+                            <if !$mybb->user['avatar'] then>
+                                <img src="/images/default_avatar.png" style="height: 46px;width: 46px;margin-top: -10px;border: 2px solid #1e1224;position: relative;top: 5px;">
+                            </if>
+                            </a></li>
+                        <!-- Nuevo desplegable del panel de usuario -->
+                        <li class="user-panel-dropdown" style="padding: 0px 5px;border-right: 0px;border-left: 0px;">
+                            <a href="#" style="padding: 5px; color: #da9039;"><i class="fa fa-home"></i></a>
+                            <div class="dropdown-content">
+                                <div class="thead"><strong>Panel de Usuario</strong></div>
+                                
+                                <!-- Sección Mensajes -->
+                                <div class="tcat">
+                                    <span>Mensajería</span>
+                                </div>
+                                <div id="usercppms_e">
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/private.php?action=send"><i class="fa fa-envelope-o fa_xtra white"></i> Redactar Mensaje</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/private.php"><i class="fa fa-folder-open-o fa_xtra orange"></i> Bandeja de Entrada</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/private.php?action=tracking"><i class="fa fa-map-marker fa_xtra"></i> Seguimiento</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/private.php?action=folders"><i class="fa fa-folder-o fa_xtra orange"></i> Editar Carpetas</a>
+                                    </div>
+                                </div>
+                                
+                                <!-- Sección Perfil -->
+                                <div class="tcat">
+                                    <span>Perfil</span>
+                                </div>
+                                <div id="usercpprofile_e">
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=profile"><i class="fa fa-list-alt fa_xtra grey"></i> Editar Perfil</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=password"><i class="fa fa-key fa_xtra orange"></i> Cambiar Contraseña</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=email"><i class="fa fa-undo fa_xtra"></i> Cambiar Email</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=avatar"><i class="fa fa-picture-o fa_xtra"></i> Cambiar Avatar</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=options"><i class="fa fa-cog fa_xtra white"></i> Opciones</a>
+                                    </div>
+                                </div>
+                                
+                                <!-- Sección Varios -->
+                                <div class="tcat">
+                                    <span>Varios</span>
+                                </div>
+                                <div id="usercpmisc_e">
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=editlists"><i class="fa fa-hand-paper-o fa_xtra red"></i> Listas de Ignorados</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/member.php?action=profile&uid={$mybb->user['uid']}"><i class="fa fa-eye fa_xtra blue"></i> Ver Mi Perfil</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=forumsubscriptions"><i class="fa fa-check-square fa_xtra green"></i> Suscripciones de Foro</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=subscriptions"><i class="fa fa-check-circle fa_xtra lgreen"></i> Temas Suscritos</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=drafts"><i class="fa fa-file-code-o fa_xtra white"></i> Borradores</a>
+                                    </div>
+                                    <div class="trow1">
+                                        <a href="{$mybb->settings['bburl']}/usercp.php?action=usergroups"><i class="fa fa-user-secret fa_xtra blue"></i> Grupos de Usuario</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </if>
+                    <if $mybb->user['uid'] == '0' then><li style=" border-right: 0px; "><a href="{$mybb->settings['bburl']}/op/ficha.php?uid={$mybb->user['uid']}" style=" color: #da9039; ">Nueva Ficha</a></li></if>
+                </ul>
+            </div>  
+        </div>
+		<div id="logo" style="margin-top: 50px; position: relative;">
+			<a href="{$mybb->settings['bburl']}/">
+				<if ($g_uid == '7' || $g_uid == '25' || $g_uid == '279' || $g_uid == '23' || $g_uid == '9' || $g_uid == '11' || $g_uid == '799' || $g_uid == '2' || $g_uid == '347') then>
+					<img src="/images/op/banners/Banner60_One_Piece_Gaiden_Foro_Rol.jpg" alt="One Piece Gaiden">
+				<elseif ($g_uid == '871' || $g_uid == '158' || $g_uid == '121') then>
+					<img src="/images/op/banners/BannerKuro4_One_Piece_Gaiden_Foro_Rol.jpg" alt="One Piece Gaiden">
+				<elseif ($g_uid == '304' || $g_uid == '310' || $g_uid == '92') then>
+					<img src="/images/op/banners/Besties.png" alt="One Piece Gaiden">
+				<elseif ($g_uid == '348' || $g_uid == '850') then>
+					<img src="/images/op/banners/BannerDearWendy.webp" alt="One Piece Gaiden">
+				<elseif ($g_uid == '10' || $g_uid == '944') then>
+					<img src="/images/op/uploads/WhatsApp%20Image%202026-02-28%20at%2017.10.34.jpeg" alt="One Piece Gaiden">
+				<else>
+					<img src="/images/op/banners/Banner59_One_Piece_Gaiden_Foro_Rol.jpg" alt="One Piece Gaiden">
+				</if>
+				
+			</a>
+		</div>
+<!-- 	<div style="text-align: center;width: 1100px;margin: auto;height: 27px;background-color: #ff7e00;box-shadow: 0px 1px 2px black;background-image: linear-gradient(#ff7e00, #c66c0f);">
+		<span style="color: white !important;font-family: 'LemonMilkMedium';font-size: 21px;text-shadow: 1px 1px 1px black;position: relative;top: -3px;letter-spacing: 1px;">
+			One Piece Gaiden actualmente está en un proceso de Reset. 
+		</span>
+	</div> -->
+	<if $g_is_staff then>
+		<div style="text-align: center;width: 1100px;margin: auto;height: 27px;background-color: #ff7e00;box-shadow: 0px 1px 2px black;background-image: linear-gradient(#ff7e00, #c66c0f);">
+			<span style="color: white !important;font-family: 'LemonMilkMedium';font-size: 21px;text-shadow: 1px 1px 1px black;position: relative;top: -3px;letter-spacing: 1px;">
+				<a href="https://onepiecegaiden.com/op/staff/fichas_en_cola.php">Fichas</a>: {$g_fichas_en_cola} | <a href="https://onepiecegaiden.com/op/staff/peticiones_admin.php">Peticiones</a>: {$g_peticiones} | <a href="https://onepiecegaiden.com/op/staff/peticiones_bugs.php">Bugs</a>: {$g_peticiones_bug} | <a href="/op/staff/tecnicas_creacion.php">Creaciones</a>: {$g_total_creaciones_sin_moderar} / {$g_total_creaciones_pendientes} | <a href="https://onepiecegaiden.com/op/staff/avisos.php">Avisos:</a> {$g_peticiones_avisos}
+			</span>
+		</div>
+	</if>
+		<!-- <div class="wrapper">
+			<a href="{$mybb->settings['bburl']}/index.php"><img src="{$theme['logo']}" title="{$mybb->settings['bbname']}" /></a>
+		</div> -->
+		</div>
+	<div class="modal login-modal" id="quick_login" style="display: none;">
+		<form method="post" action="{$mybb->settings['bburl']}/member.php">
+			<input name="action" type="hidden" value="do_login" />
+			<input name="url" type="hidden" value="" />
+			<input name="quick_login" type="hidden" value="1" />
+			<input name="my_post_key" type="hidden" value="{$mybb->post_code}" />
+			<table width="100%" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" border="0" class="tborder">
+				<tr>
+					<td class="thead signin" colspan="3">{$lang->login}</td>
+				</tr>
+				{$loginform}
+			</table>
+		</form>
+	</div>
+	<script type="text/javascript">
+
+// Verificar cuando se cierre el aviso de MP
+window.MyBB = window.MyBB || {};
+MyBB.dismissPMNotice = function(url) {
+  console.log("Cerrando aviso de MP");
+  
+  // Función original para cerrar el aviso
+  const pmAlert = document.querySelector('.pm_alert#pm_notice');
+  if (pmAlert) {
+    pmAlert.style.display = 'none';
+  }
+  
+  // Remover indicadores después de cerrar el aviso
+  setTimeout(function() {
+    console.log("Verificando mensajes después de cerrar aviso");
+    checkUnreadMessages();
+  }, 100);
+  
+  // Continuar con el comportamiento original
+  return true;
+};
+
+// Función para alternar sidebar
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  if (sidebar) {
+    sidebar.classList.toggle('active');
+  }
+}
+		
+</script>
+	<div id="content">
+		<div class="wrapper">
+	
+			<if $current_page == "index.php" && $g_tiene_ficha == false then>
+				<div>
+					<a href="/showthread.php?tid=3728">
+						<img src="/images/op/indice/BannerNuevoUser_One_Piece_Gaiden_Foro_Rol.jpg" />
+					</a>
+				</div>
+			</if>
+			
+			<if $current_page != "index.php" && $current_page != "ficha.php" then>
+			<div style="position: relative;width: 1100px;height: 155px;">
+				<if $banner_sabias_que == '1' then>
+					<div style=" position: absolute; color: white; font-family: 'moonGetHeavy'; font-size: 19px; text-shadow: 2px 2px black; top: 25px; left: 448px; "><span>¿Sabías que…?</span></div>
+					<div style="position: absolute;color: black;font-family: 'moonGetHeavy';font-size: 16px;top: 55px;left: 31px;width: 945px;overflow: hidden; max-height: 77px;"><span>{$g_sabiasque['texto']}</span></div>
+				</if>
+				<if $banner_sabias_que == '2' then>
+					<div style=" position: absolute; color: white; font-family: 'moonGetHeavy'; font-size: 19px; text-shadow: 2px 2px black; top: 25px; left: 448px; "><span>Hay rumores sobre…</span></div>
+					<div style="position: absolute;color: black;font-family: 'moonGetHeavy';font-size: 16px;top: 55px;left: 120px;width: 945px;overflow: hidden; max-height: 77px;"><span>{$g_sabiasque['texto']}</span></div>
+				</if>
+				<if $banner_sabias_que == '3' then>
+					<div style=" position: absolute; color: white; font-family: 'moonGetHeavy'; font-size: 19px; text-shadow: 2px 2px black; top: 25px; left: 448px; "><span>Alguien dijo una vez...</span></div>
+					<div style="position: absolute;color: black;font-family: 'moonGetHeavy';font-size: 13px;top: 112px;left: 100px;width: 961px;text-align: right;font-style: italic;"><span>{$g_sabiasque['autor']}</span></div>
+					<div style="position: absolute;color: black;font-family: 'moonGetHeavy';font-size: 16px;top: 55px;left: 120px;width: 945px;max-height: 57px;overflow: auto;"><span>{$g_sabiasque['texto']}</span></div>
+				</if>
+				<if $banner_sabias_que == '4' then>
+					<div style=" position: absolute; color: white; font-family: 'moonGetHeavy'; font-size: 19px; text-shadow: 2px 2px black; top: 25px; left: 448px; "><span>En este foro…</span></div>
+					<div style="position: absolute;color: black;font-family: 'moonGetHeavy';font-size: 16px;top: 55px;left: 31px;width: 945px;overflow: hidden; max-height: 77px;"><span>{$g_sabiasque['texto']}</span></div>
+				</if>
+				
+				<img src="/images/op/uploads/SabiasQue{$banner_sabias_que}_One_Piece_Gaiden_Foro_Rol.jpg">
+			</div>
+			</if>
+			
+			<if false then>
+				<div>
+					<a href="{$mybb->settings['bburl']}/">
+						<img src="/images/op/indice/BannerBetaCerrada_One_Piece_Gaiden_Foro_Rol.jpg" />
+					</a>
+				</div>
+			</if>
+			{$bbclosedwarning}
+			{$modnotice}
+			{$pm_notice}{$pm_switch_notice}
+			{$remote_avatar_notice}
+			{$bannedwarning}
+					{$pending_joinrequests}
+			{$awaitingusers}
+			<navigation>

@@ -1,0 +1,184 @@
+{$ignore_bit}{$deleted_bit}
+<a name="pid{$post['pid']}" id="pid{$post['pid']}"></a>
+<div class="post classic {$unapproved_shade}" style="{$post_visibility}" id="post_{$post['pid']}">
+<div>
+	<div class="post_author scaleimages" style="min-height: 820px;padding-top: 0px !important;background: url(/images/op/misc/Patron{$post['ficha']['faccion']}_One_Piece_Gaiden_Foro_Rol.png) {$post['faccionColor']};border-right: 1px solid #00000061;position: relative;box-sizing: border-box;" >
+	
+	<if $post['faccion'] != 'Staff' then>
+	<div style="display: flex;height: 73px;">
+		<div id="pestana_avatar{$post['pid']}" data-pid="{$post['pid']}" data-tipo="avatar" class="pestanas_avatar pestana_active" style=" background-color: {$post['faccionColor']}; box-sizing: border-box; border: 4px double #00000057;width: 83px;">
+			<img src="/images/op/uploads/PestañaAvatar_One_Piece_Gaiden_Foro_Rol.png" style=" width: 100%; height: 100%; ">
+		</div>
+		<div id="pestana_stats{$post['pid']}" data-pid="{$post['pid']}" data-tipo="stats" class="pestanas_avatar" style=" background-color: {$post['faccionColor']}; box-sizing: border-box; border: 4px double #00000057;width: 83px;">
+			<img src="/images/op/uploads/PestañaStats_One_Piece_Gaiden_Foro_Rol.png" style=" width: 100%; height: 100%; ">
+		</div>
+		<div id="pestana_inventario{$post['pid']}" data-pid="{$post['pid']}" data-tipo="inventario" class="pestanas_avatar" style=" background-color: {$post['faccionColor']}; box-sizing: border-box; border: 4px double #00000057;width: 84px;">
+			<img src="/images/op/uploads/PestañaInventario_One_Piece_Gaiden_Foro_Rol.png" style=" width: 100%; height: 100%; ">
+		</div>
+	</div>
+	</if>
+	
+	{$post['useravatar']}
+	
+	<if $post['faccion'] == 'Staff' then>
+		<div style="padding: 5px;display: flex;">
+			<img style="margin: auto;filter: drop-shadow(0px 0px 3px black);" src="/images/op/rangos/{$post['rango']}_One_Piece_Gaiden_Foro_Rol.png" />
+		</div>
+	</if>
+	
+	<if $post['faccion'] != 'Staff' then>
+	
+	<div id="avatar_stats{$post['pid']}" class="avatar_stats">
+		<div style=" text-align: center; font-family: moonGetHeavy; color: white; text-shadow: 2px 2px 2px black; font-size: 18px; margin-top: 9px; ">{$post['fama']}</div>
+		<div style="text-align: center;font-family: moonGetHeavy;color: white;text-shadow: 2px 2px 2px black;font-size: 9px;margin-top: 5px;">{$post['reputacion']} Reputación</div>
+		<div style="display: flex;flex-direction: column;position: relative;margin-top: 13px;">
+			<div style="position: absolute;top: 10px;left: 17px;">
+				<div class="stat_diamante" style="margin: auto; background: {$post['faccionColor']};"></div>
+				<div class="stat_texto">{$post['fuerza_completa']}</div>
+				<div class="stat_texto_tipo" style="top: -4px;left: 42px;">Fuerza</div>
+				<div class="stat_linea" style="top: 16px;left: 40px;"></div>
+			</div>
+			
+			<div style="position: absolute;top: 50px;left: 198px;">
+				<div class="stat_diamante" style="margin: auto; background: {$post['faccionColor']};"></div>
+				<div class="stat_texto">{$post['resistencia_completa']}</div>
+				<div class="stat_texto_tipo" style="top: -4px;left: -105px;">Resistencia</div>
+				<div class="stat_linea" style="top: 16px;left: -105px;"></div>
+			</div>
+			
+			<div style=" position: absolute;top: 90px;left: 17px; ">
+				<div class="stat_diamante" style="margin: auto; background: {$post['faccionColor']};"></div>
+				<div class="stat_texto">{$post['agilidad_completa']}</div>
+				<div class="stat_texto_tipo" style="top: -4px;left: 42px;">Agilidad</div>
+				<div class="stat_linea" style="top: 16px;left: 40px;"></div>
+			</div>
+			
+			<div style="position: absolute;top: 130px;left: 198px;">
+				<div class="stat_diamante" style="margin: auto; background: {$post['faccionColor']};"></div>
+				<div class="stat_texto">{$post['destreza_completa']}</div>
+				<div class="stat_texto_tipo" style="top: -4px;left: -87px;">Destreza</div>
+				<div class="stat_linea" style="top: 16px;left: -105px;"></div>
+			</div>
+			
+			<div style="position: absolute;top: 170px;left: 17px;">
+				<div class="stat_diamante" style="margin: auto; background: {$post['faccionColor']};"></div>
+				<div class="stat_texto">{$post['punteria_completa']}</div>
+				<div class="stat_texto_tipo" style="top: -4px;left: 42px;">Puntería</div>
+				<div class="stat_linea" style="top: 16px;left: 40px;"></div>
+			</div>
+		
+			<div style="position: absolute;top: 210px;left: 198px;">
+				<div class="stat_diamante" style="margin: auto; background: {$post['faccionColor']};"></div>
+				<div class="stat_texto">{$post['reflejos_completa']}</div>
+				<div class="stat_texto_tipo" style="top: -4px;left: -77px;">Reflejos</div>
+				<div class="stat_linea" style="top: 16px;left: -105px;"></div>
+			</div>
+			
+			<div style="position: absolute;top: 250px;left: 17px;">
+				<div class="stat_diamante" style="margin: auto; background: {$post['faccionColor']};"></div>
+				<div class="stat_texto">{$post['voluntad_completa']}</div>
+				<div class="stat_texto_tipo" style="top: -4px;left: 42px;">Voluntad</div>
+				<div class="stat_linea" style="top: 16px;left: 40px;"></div>
+			</div>
+			
+			<div style="position: absolute;top: 290px;left: 198px;">
+				<div class="stat_diamante" style="margin: auto; background: {$post['faccionColor']};"></div>
+				<div class="stat_texto">{$post['control_akuma_completa']}</div>
+				<div class="stat_texto_tipo" style="top: -4px;left: -98px;">C. Akuma</div>
+				<div class="stat_linea" style="top: 16px;left: -105px;"></div>
+			</div>
+			
+		</div>
+		<a href="/op/ficha.php?uid={$post['uid']}" style=" z-index: 5; position: relative; width: 100px; display: block; margin: auto; margin-top: -25px;">
+			<div class="avatar_ficha" style=" background: {$post['faccionColor']}; ">Ficha</div>
+		</a>
+	</div>
+		
+	<div id="avatar_inventario{$post['pid']}" class="avatar_inventario">
+		<div style=" text-align: center; font-family: moonGetHeavy; color: white; text-shadow: 2px 2px 2px black; font-size: 18px; margin-top: 9px; ">Inventario</div>
+		<img src="/images/op/uploads/MarcoInventarioSinBerry_One_Piece_Gaiden_Foro_Rol.png" style=" position: relative; margin-top: -46px; " />
+		<img src="/images/op/uploads/Belly_One_Piece_Gaiden_Foro_Rol.png" style=" margin-top: -22px; position: relative; left: 225px; " />
+		<div style=" position: relative; margin-top: -23px; text-align: right; margin-right: 33px; font-size: 15px; font-family: moonGetHeavy; color: white; text-shadow: 2px 2px 2px black; ">{$post['berries']}</div>
+	</div>
+
+	<div class="user_stats" style="display: flex; flex-direction: row">
+		
+		<div style="background: radial-gradient(circle, rgba(123,122,124,1) 11%, rgba(47,47,47,1) 83%);">
+			<div class="circular-progress" data-inner-circle-color="#101010f0" data-percentage="{$post['nivelPorcentaje']}" data-progress-color="#fed70c" data-bg-color="#989898" data-nivel="{$post['ficha']['nivel']}">
+			  <div class="inner-circle"></div>
+			  <p class="percentage"></p>
+			</div>
+		</div>
+		
+		<div style=" background-color: white; height: 75px; width: 175px; display: flex; flex-direction: column; ">
+			<div style=" position: relative;">
+				<div style="position: absolute;left: 0px;top: 3px;font-family: moonGetHeavy;color: white;text-align: center;width: 174px;font-size: 14px;" id="vitalidadStat"><span style=" text-shadow: 1px 1px 5px black;">{$post['vitalidad_completa']} / {$post['vitalidad_completa']}</span></div>
+				<img style="height: 25px;width: 175px;background-color: #03d82b;" src="/images/op/misc/MarcoEstadisticas_One_Piece_Gaiden_Foro_Rol.png">
+			</div>
+			<div style=" position: relative;">
+				<div style="position: absolute;left: 0px;top: 3px;font-family: moonGetHeavy;color: white;text-align: center;width: 174px;font-size: 14px;" id="vitalidadStat"><span style=" text-shadow: 1px 1px 5px black;">{$post['energia_completa']} / {$post['energia_completa']}</span></div>
+				<img style="height: 25px;width: 175px;background-color: #dad700;" src="/images/op/misc/MarcoEstadisticas_One_Piece_Gaiden_Foro_Rol.png">
+			</div>
+			<div style=" position: relative;">
+				<div style="position: absolute;left: 0px;top: 3px;font-family: moonGetHeavy;color: white;text-align: center;width: 174px;font-size: 14px;" id="vitalidadStat"><span style=" text-shadow: 1px 1px 5px black;">{$post['haki_completo']} / {$post['haki_completo']}</span></div>
+				<img style="height: 25px;width: 175px;background-color: #0862ec;" src="/images/op/misc/MarcoEstadisticas_One_Piece_Gaiden_Foro_Rol.png">
+			</div>
+		</div>
+	</div>
+		
+	<div style="padding: 5px;display: flex;">
+		<img style=" margin: auto; " src="/images/op/rangos/{$post['rango']}_One_Piece_Gaiden_Foro_Rol.png" />
+	</div>
+		
+	</if>
+	<div class="author_statistics">
+		<!-- {post['user_details']}{post['attached_accounts']}{post['newpoints_postbit']} -->
+	</div>
+	</div></div>
+<div class="post_content" style="padding-top: 0px;background-color: rgb(255, 238, 210);width: 847px;border-left: 0px;margin-left: 0px;">
+	<div class="post_head" style="background: linear-gradient(45deg, {$post['faccionColor']}, transparent);height: 60px;border-bottom: 1px solid #8b8b8b91;position: relative;">
+		{$post['posturl']}
+		{$post['icon']}
+	<div style=" margin-left: 7px; font-family: 'moonGetHeavy'; color: white; font-size: 35px; text-shadow: 2px 2px 2px black; ">
+		<span>{$post['username']}</span>
+	</div>	
+	<div style=" position: absolute; "><span style="font-size: 17px;text-shadow: 2px 2px 2px black;margin-left: 5px;font-family: 'moonGetHeavy';color: white;position: relative;top: -4px;left: 2px;">{$post['apodo']}</span></div>
+	<div style="font-family: InterRegular;color: white;font-size: 12px;margin-left: 7px;text-shadow: 2px 2px 2px black;display: flex;align-items: flex-end;justify-content: flex-end;margin-left: 6px;padding-right: 5px;" class="post_date">{$post['postdate']} <span class="post_edit" id="edited_by_{$post['pid']}">{$post['editedmsg']}</span></div>
+	{$post['subject_extra']}
+	</div>
+	<div class="post_body scaleimages" id="pid_{$post['pid']}">
+		{$post['message']}
+	</div>
+	{$post['attachments']}
+	{$post['signature']}
+	<div class="post_meta" id="post_meta_{$post['pid']}" style=" margin-left: 20px; ">
+		{$post['iplogged']}
+		<div class="float_right">
+			{$post['poststatus']}
+		</div>
+	</div>
+	{$post['input_editreason']}
+</div>
+<div class="post_controls" style="background: {$post['faccionColor']};filter: saturate(0.7);padding: 0px 20px 4px 0px;">
+	<span class="float_left" style="padding-left: 3px; padding-top: 7px; display: inline-block;">{$post['onlinestatus']}{$post['authorchange']}</span>
+	<div class="postbit_buttons author_buttons float_left">
+		<!-- {post['button_pm']}{post['button_www']}{post['button_rep']}  {post['button_find']} -->
+		<if $post['user_uid'] == '0' then>
+			<a href="#pid{$post['pid']}" title="{$post['nombresLike']}" class="postbit_pm bradius" style="background: #00000021;"><span><i class="fa fa-heart-o" style=""></i>&nbsp; {$post['likes_number']}</span></a>
+		</if>
+		<if $post['is_liked'] == false && $post['user_uid'] != '0' then>
+			<a href="/op/liked.php?pid={$post['pid']}&tid={$post['tid']}" title="{$post['nombresLike']}" class="postbit_pm bradius"><span><i class="fa fa-heart-o" style=""></i>&nbsp; {$post['likes_number']}</span></a>
+		</if>
+		<if $post['is_liked'] == true && $post['user_uid'] != '0' then>
+			<a href="/op/liked.php?pid={$post['pid']}&tid={$post['tid']}" title="{$post['nombresLike']}" class="postbit_pm bradius"><span><i class="fa fa-heart" style="color: #eb5c5c;"></i>&nbsp; {$post['likes_number']}</span></a>
+		</if>
+	</div>
+	<div class="postbit_buttons post_management_buttons float_right">
+		{$post['button_edit']}<!-- {post['button_quickdelete']}{post['button_quickrestore']}{post['button_quote']}{post['button_multiquote']}{post['button_report']}{post['button_warn']}{post['button_purgespammer']}{post['button_reply_pm']}{post['button_replyall_pm']}{post['button_forward_pm']} --> {$post['button_delete_pm']}
+		<div style=" display: inline;position: relative;top: 3px; margin-left: 7px; ">
+			<strong><a href="{$post['postlink']}#pid{$post['pid']}" title="{$post['subject_title']}" style=" font-family: moonGetHeavy; color: #00000061; ">#{$post_number}</a></strong>
+			{$post['inlinecheck']}
+		</div>
+	</div>
+</div>
+</div>

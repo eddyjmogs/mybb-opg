@@ -1,0 +1,565 @@
+<html>
+<head>
+<title>{$thread['subject']}</title>
+{$headerinclude}
+<script type="text/javascript">
+<!--
+	var quickdelete_confirm = "{$lang->quickdelete_confirm}";
+	var quickrestore_confirm = "{$lang->quickrestore_confirm}";
+	var allowEditReason = "{$mybb->settings['alloweditreason']}";
+	lang.save_changes = "{$lang->save_changes}";
+	lang.cancel_edit = "{$lang->cancel_edit}";
+	lang.quick_edit_update_error = "{$lang->quick_edit_update_error}";
+	lang.quick_reply_post_error = "{$lang->quick_reply_post_error}";
+	lang.quick_delete_error = "{$lang->quick_delete_error}";
+	lang.quick_delete_success = "{$lang->quick_delete_success}";
+	lang.quick_delete_thread_success = "{$lang->quick_delete_thread_success}";
+	lang.quick_restore_error = "{$lang->quick_restore_error}";
+	lang.quick_restore_success = "{$lang->quick_restore_success}";
+	lang.editreason = "{$lang->postbit_editreason}";
+	lang.post_deleted_error = "{$lang->post_deleted_error}";
+	lang.softdelete_thread = "{$lang->soft_delete_thread}";
+	lang.restore_thread = "{$lang->restore_thread}";
+// -->
+</script>
+<style>
+	.modo_noche {
+		width: 30px;
+		padding: 2px 6px;
+		margin-top: -30px;
+		display: inline-block;
+		background-color: #7842c9;
+		border-radius: 2px;
+		position: relative;
+		top: 13px;
+		cursor: pointer;
+	}	
+	
+	.modo_dia {
+		width: 30px;
+		padding: 2px 6px;
+		margin-top: -30px;
+		display: inline-block;
+		background-color: #ff7f00;
+		border-radius: 2px;
+		position: relative;
+		top: 13px;
+		cursor: pointer;
+		padding-right: 5px;
+	}
+	
+	.modo_noche:hover {
+		background-color: #591cb4;
+	}
+	
+	.modo_dia:hover {
+		background-color: #bf5600;
+	}
+	
+  .post.classic, .post { box-sizing: border-box; border: 1px solid #623db5; }
+	
+  .pestanas_avatar {
+	box-sizing: border-box;
+    border: 4px double #00000057;	
+	transition: all 0.30s ease-out;
+	cursor: pointer;
+  }
+	
+  .pestanas_avatar:hover {
+	filter: saturate(0.6);
+  }
+  
+  .pestana_active {
+	filter: saturate(0.7);
+  }
+	
+  .avatar_stats {
+    position: absolute; width: 250px; background-color: #000000bd; height: 450px; top: 73px; opacity: 0;
+	transition: all 0.30s ease-out;
+  }
+	
+  .avatar_inventario {
+	position: absolute; width: 250px; background-color: #000000bd; height: 450px; top: 73px; opacity: 0;  
+	transition: all 0.30s ease-out;
+  }
+	
+	.stat_diamante {
+		height: 35px;
+		width: 35px;
+		transform: rotate(45deg);
+		border: 3px solid white;
+		box-sizing: border-box;
+		box-shadow: 0px 0px 10px black;
+		background-color: red;
+	}
+	
+	.stat_texto {
+		    text-align: center;
+		font-family: moonGetHeavy;
+		color: white;
+		font-size: 15px;
+		-webkit-text-stroke-width: 1px;
+		-webkit-text-stroke-color: black;
+		z-index: 2;
+		position: relative;
+		top: -28px;
+		left: 0px;
+	}
+	
+	div.author_avatar {
+		cursor: pointer !important;
+		transition: all 0.30s ease-out;
+	}
+	
+	div.author_avatar:hover {
+		filter: saturate(2) !important;
+	}
+	
+	.stat_texto_tipo {
+		text-align: center;
+		font-family: moonGetHeavy;
+		color: white;
+		font-size: 15px;
+		z-index: 2;
+		position: absolute;
+		text-shadow: 2px 2px 2px black;
+	}
+	
+	.stat_linea {
+		width: 100px;
+		height: 3px;
+		background-color: white;
+		position: absolute;
+		z-index: 2;
+		filter: drop-shadow(2px 4px 6px black);
+	}
+	
+	.avatar_ficha {
+		text-align: center; margin-top: 364px; font-family: moonGetHeavy; color: white; background-color: #6534aa; width: 74px; margin: 358px auto; padding: 3px 14px; border-radius: 29px; border: 2px solid white; transition: all 0.30s ease-out;
+	}
+	
+	.avatar_ficha:hover {
+		filter: saturate(0.5)
+	}
+</style>
+<script>
+	// /\[(RES|FUE)x(\d+|\d+,\d+)]/g
+	
+	let efectosRegex = /\[(RES|FUE)x(\d+|\d+,\d+)]/g;	
+	
+	let statCodigo = {
+		RES: 'Resistencia',
+		FUE: 'Fuerza',
+		DES: 'Destreza',
+		PUN: 'Puntería',
+		AGI: 'Agilidad',
+		REF: 'Reflejos',
+		CAK: 'Control de Akuma',
+		VOL: 'Voluntad'
+	}
+	
+	function getStatCodigo(codigo) {
+		return statCodigo[codigo];
+	}
+	
+	let efectosCodigo = {
+		'[Daño contundente]': { nombre: 'Daño contundente', texto: 'Provoca golpes que pueden causar entumecimiento, fracturas, mareos y suelen tener buena destructividad.' },
+		'[Daño cortante]': { nombre: 'Daño cortante', texto: 'Provoca cortes que pueden causar hemorragias o amputaciones.' },
+		'[Daño perforante]': { nombre: 'Daño perforante', texto: 'Pueden causar hemorragias. Tienen poca destructividad pero ignoran 40 puntos de defensa pasiva del enemigo.' },
+		'[Daño elemental]': { nombre: 'Daño elemental', texto: 'Inflige daño basado en elementos naturales como fuego o agua.' },
+		'[Daño espiritual]': { nombre: 'Daño espiritual', texto: 'Afecta la energía o espíritu del objetivo.' },
+		'[Defensa pasiva física]': { nombre: 'Defensa pasiva física', texto: 'A partir de nivel 5 reduce el daño físico recibido en un valor igual a tu Resistencia.' },
+		'[Defensa pasiva mental]': { nombre: 'Defensa pasiva mental', texto: 'A partir de nivel 5 reduce el daño espiritual recibido en un valor igual a tu Voluntad.' },
+		'[Umbral del dolor]': { nombre: 'Umbral del dolor', texto: '' },
+		'[Agarre]': { nombre: 'Agarre', texto: 'Inmoviliza al objetivo mediante un agarre fuerte.' },
+		'[Asfixia]': { nombre: 'Asfixia', texto: 'Impide la respiración, causando daño progresivo.' },		
+		'[Parálisis parcial]': { nombre: 'Parálisis parcial', texto: 'Inmoviliza parcialmente, limitando movimientos.' },
+		'[Parálisis completa]': { nombre: 'Parálisis completa', texto: 'Inmoviliza totalmente, impidiendo cualquier movimiento.' },
+		'[Canalizar]': { nombre: 'Canalizar', texto: 'Requiere permanecer concentrado en una tarea pero no limita el movimiento.' },
+		'[Concentrar]': { nombre: 'Concentrar', texto: 'Requiere concentración absoluta, el usuario ha de mantenerse inmovil sin realizar técnica alguna.' },
+		'[Ceguera]': { nombre: 'Ceguera', texto: 'Dificulta la visión temporalmente causando -12 Reflejos.' },
+		'[Derribo]': { nombre: 'Derribo', texto: 'Lanza al objetivo haciéndole perder el equilibrio.' },
+		'[Desarme]': { nombre: 'Desarme', texto: 'Fuerza al objetivo a soltar su arma o equipamiento.' },
+		'[Desorientación]': { nombre: 'Desorientación', texto: 'Causa confusión y pérdida de dirección, -10 Reflejos.' },
+		'[Confusión]': { nombre: 'Confusión', texto: 'Provoca alteración mental, dificultando la toma de decisiones, -10 Reflejos.' },
+		'[Mareo]': { nombre: 'Mareo', texto: 'Desestabiliza al objetivo, dificultando su equilibrio, -15 Reflejos.' },
+		'[Empuje]': { nombre: 'Empuje', texto: 'Mueve al objetivo hacia atrás con fuerza.' },
+		'[Entumecimiento]': { nombre: 'Entumecimiento', texto: 'Reduce la movilidad debido a la rigidez corporal en la zona afectada, -15 Agilidad en dicha zona.' },
+		'[Veneno leve]': { nombre: 'Veneno leve', texto: 'Inflige daño directo de 20 Puntos por turno durante 3 turnos.' },
+		'[Veneno medio]': { nombre: 'Veneno medio', texto: 'Inflige daño directo de 30 Puntos por turno durante 4 turnos.' },
+		'[Veneno grave]': { nombre: 'Veneno grave', texto: 'Inflige daño directo de 40 Puntos por turno, las curaciones serán un 50% menos efectivas mientras dure.' },
+		'[Fractura]': { nombre: 'Fractura', texto: 'Rompe huesos, causando dolor y limitación de movimiento. -30 Agi en la zona.' },
+		'[Frío]': { nombre: 'Frío', texto: 'En función de la diferencia entre el atributo que genera el efecto y el atributo resistencia del objetivo los efectos causados varían, revisar guía.' },
+		'[Calor]': { nombre: 'Calor', texto: 'En función de la diferencia entre el atributo que genera el efecto y el atributo resistencia del objetivo los efectos causados varían, revisar guía.' },
+		'[Hemorragia leve]': { nombre: 'Hemorragia leve', texto: 'Causa pérdida de sangre continua menor. Quita 10 puntos de energía cada turno durante 2 turnos.' },
+		'[Hemorragia media]': { nombre: 'Hemorragia media', texto: 'Provoca pérdida de sangre continua moderada. Quita 20 puntos de energía cada turno durante 4 turnos.' },
+
+		'[Hemorragia grave]': { nombre: 'Hemorragia grave', texto: 'Genera pérdida de sangre continua severa. Quita 40 puntos de energía cada turno de manera indefinida.' },
+		'[Quemadura leve]': { nombre: 'Quemadura leve', texto: 'Produce daño superficial por calor. Hace 20 puntos de daño directo por turno durante 2 turnos.' },
+		'[Quemadura media]': { nombre: 'Quemadura media', texto: 'Provoca daño significativo por calor. Hace 40 puntos de daño directo por turno durante 3 turnos.' },
+		'[Quemadura grave]': { nombre: 'Quemadura grave', texto: 'Causa daño severo por calor. Hace 80 puntos de daño directo por turno.' },
+		'[Miedo]': { nombre: 'Miedo', texto: 'Infunde temor, reduciendo la eficacia en combate, -10 Voluntad.' },
+		'[Sordera]': { nombre: 'Sordera', texto: 'Dificulta la audición temporalmente, -8 Reflejos.' },
+		'[Sueño]': { nombre: 'Sueño', texto: 'Induce un estado de sueño, el objetivo pierde 5 puntos en Fuerza, Agilidad, Destreza, Puntería, Control de Akuma y Reflejos.' },
+		'[Terror]': { nombre: 'Terror', texto: 'Provoca un estado de pánico extremo, -15 Vol.' }
+	};
+	
+	let efectosArray = Object.keys(efectosCodigo);
+
+	function addEfectos(descripcion) {
+		for (let i = 0; i < efectosArray.length; i++) {
+		
+			let efecto = efectosArray[i];
+			descripcion = descripcion.replace(efecto, `
+				<span class="tec-tooltip"><strong>` + efectosCodigo[efecto].nombre + `</strong><span class="tec-tooltiptext">` + efectosCodigo[efecto].texto + `</span></span>
+			`);
+		
+		}
+		return descripcion;
+	}
+	
+	function addEfectoStats(efectos, statNums) {
+		let efectosRegex = /\[(RES|FUE|DES|PUN|AGI|REF|CAK|VOL)x(\d+|\d+,\d+)]/g;
+		const efectosMatch = [...efectos.matchAll(efectosRegex)];
+		
+		for (let i = 0; i < efectosMatch.length; i++) {
+			let codigo = efectosMatch[i][0];
+			let stat = efectosMatch[i][1]
+			let multi = parseFloat(efectosMatch[i][2].replace(',', '.'));
+			
+			let statNum = statNums[efectosMatch[i][1]];
+			
+			let htmlTag = `
+				<span class="tec-tooltip"><strong>` + (statNum * multi) + `</strong><span class="stat-tooltiptext">` + codigo + `</span></span>
+			`
+			efectos = efectos.replace(codigo, htmlTag);
+		}
+		
+		for (let i = 0; i < efectosArray.length; i++) {
+		
+			let efecto = efectosArray[i];
+			efectos = efectos.replace(efecto, `
+				<span class="tec-tooltip"><strong>` + efectosCodigo[efecto].nombre + `</strong><span class="tec-tooltiptext">` + efectosCodigo[efecto].texto + `</span></span>
+			`);
+		
+		}
+		
+		return efectos;
+	}
+
+	
+</script>
+<!-- jeditable (jquery) -->
+<script type="text/javascript" src="{$mybb->asset_url}/jscripts/report.js?ver=1820"></script>
+<script src="{$mybb->asset_url}/jscripts/jeditable/jeditable.min.js"></script>
+<script type="text/javascript" src="{$mybb->asset_url}/jscripts/thread.js?ver=1822"></script>
+</head>
+<body>
+	{$header}
+	{$threadnotesbox}
+	{$pollbox}
+	<div class="float_left">
+		{$multipage}
+	</div>
+	<div class="float_right">
+		<div id="modoNoche" style=" display: inline-block; ">
+			<img onclick="toggleModoNoche()" class="modo_noche" src="/images/op/misc/ModoNoche_One_Piece_Gaiden_Foro_Rol.png">
+		</div>
+		<button onclick="toggleModoLectura()" type="button" style=" padding: 8px 23px 9px 21px; " class="button new_reply_button bradius">Modo Lectura</button>
+		{$newreply}
+	</div>
+	<table border="0" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" class="tborder tfixed clear" style="background: none !important;">
+		<tr>
+			<td class="thead" style="background: linear-gradient(#ff7f00, #cd6702);">
+				<div class="float_right">
+					<span class="smalltext">{$ratethread}</span>
+				</div>
+				<div style=" color: white; font-family: InterRegular; font-size: 20px; text-align: center; text-shadow: 2px 2px 2px black; ">
+					<strong>{$thread['displayprefix']}{$thread['subject']} <if $thread['estacion'] != '0' then>- {$thread['estacion']}, Día {$thread['day']}, Año {$thread['year']}</strong></if>
+				</div>
+			</td>
+		</tr>
+	<tr><td id="posts_container">
+	<div id="posts">
+		{$posts}
+	</div>
+</td>
+</tr>
+	</table>
+	<div class="float_left">
+		{$multipage}
+	</div>
+	<div style="padding-top: 1px;" class="float_right">
+		<button onclick="toggleModoLectura()" type="button" style=" padding: 8px 23px 9px 21px; " class="button new_reply_button bradius">Modo Lectura</button>
+		{$newreply}
+	</div>
+	<br class="clear" />
+	<a name="switch" id="switch"></a><!-- {quickreply} -->
+	{$threadexbox}
+	{$similarthreads}
+	<br />
+	<div class="float_left">
+		<ul class="thread_tools">
+			{$addremovesubscription}
+			{$printthread}	
+		</ul>
+	</div>
+
+	<div class="float_right" style="text-align: right;">
+		{$moderationoptions}
+		{$forumjump}
+	</div>
+	<br class="clear" />
+	{$usersbrowsing}
+	{$footer}
+	<div id="thread_modes_popup" class="popup_menu" style="display: none;"><div class="popup_item_container"><a href="showthread.php?mode=linear&amp;tid={$tid}&amp;pid={$pid}#pid{$pid}" class="popup_item">{$lang->linear}</a></div><div class="popup_item_container"><a href="showthread.php?mode=threaded&amp;tid={$tid}&amp;pid={$pid}#pid{$pid}" class="popup_item">{$lang->threaded}</a></div></div>
+	<script type="text/javascript">
+	// <!--
+		if(use_xmlhttprequest == "1") {
+			$("#thread_modes").popupMenu();
+		}
+	// -->
+	</script>
+	<script type="text/javascript">
+		let pestana = null;
+		$('.pestanas_avatar').on( "click", function() {
+		  pestana = $(this);
+		  let pid = pestana.data('pid');
+		  let tipo = pestana.data('tipo');
+		  
+		  $('#pestana_avatar' + pid).removeClass('pestana_active');
+		  $('#pestana_inventario' + pid).removeClass('pestana_active');
+	      $('#pestana_stats' + pid).removeClass('pestana_active');
+			
+		  if (tipo == 'avatar') {
+			  $('#avatar_inventario' + pid).css('opacity', '0');
+			  $('#avatar_stats' + pid).css('opacity', '0');
+			  $('#avatar_avatar' + pid).css('z-index', '10');
+		  }
+			
+		  if (tipo == 'stats') {
+			  $('#avatar_inventario' + pid).css('opacity', '0');
+			  $('#avatar_stats' + pid).css('opacity', '1');
+			  $('#avatar_avatar' + pid).css('z-index', '0');
+		  }	
+			
+		  if (tipo == 'inventario') {
+			  $('#avatar_stats' + pid).css('opacity', '0');
+			  $('#avatar_inventario' + pid).css('opacity', '1');
+			  $('#avatar_avatar' + pid).css('z-index', '0');
+		  }	
+		  
+		  $(pestana).addClass('pestana_active');
+		} );
+		
+		const circularProgress = document.querySelectorAll(".circular-progress");
+
+		Array.from(circularProgress).forEach((progressBar) => {
+		  const progressValue = progressBar.querySelector(".percentage");
+		  const innerCircle = progressBar.querySelector(".inner-circle");
+		  let startValue = 0,
+			endValue = Number(progressBar.getAttribute("data-percentage")),
+			speed = 25,
+			progressColor = progressBar.getAttribute("data-progress-color"),
+			nivel = progressBar.getAttribute("data-nivel");
+
+		  const progress = setInterval(() => {
+			startValue++;
+			progressValue.textContent = nivel + '';
+			progressValue.style.color = progressColor;
+
+			innerCircle.style.backgroundColor = progressBar.getAttribute("data-inner-circle-color");
+
+			progressBar.style.background = `conic-gradient(` + progressColor + ` ` + startValue * 3.6 + `deg,` + progressBar.getAttribute("data-bg-color") + ` 0deg)`;
+			if (startValue === endValue) {
+			  clearInterval(progress);
+			}
+		  }, speed);
+		});
+
+		
+		let post_content = $('.post_content');
+
+		for (let i = 0; i < post_content.length; i++) {
+			let height = post_content[i].offsetHeight;
+			if (height < 610) { height = 610; }
+			$($('.post_author')[i]).css('height', height);
+		}
+		
+		$('.spoiler').on('click', function() {
+			for (let i = 0; i < post_content.length; i++) {
+				let height = post_content[i].offsetHeight;
+				if (height < 610) { height = 610; }
+				$($('.post_author')[i]).css('height', height);
+			}
+		});
+		
+		let modoLectura = localStorage.getItem("modoLectura");
+		let modoNoche = localStorage.getItem("modoNoche");
+		
+		if (modoNoche == 'true') {
+			$('.post_body').css("color", "#d9d6d6");
+			$('.post_content').css("background-color", "#1a1423");
+			// $('.post_controls').css('background-color', '#1a1423');
+			// $('#posts_container').css('background-color', '#1a1423');
+			$('.tfoot').css('background-color', '#1a1423');
+			$('.post').css('background-color', '#1a1423');
+			$('.op_spoiler_content').css('background-color', 'rgba(232,180,210,0.65)');
+			$('[data-spoiler="1"] button').css('background', '#c73870');
+
+			
+			$('.tecnica_spoiler_content').css('background-color', '#2a203a');
+			$('.rangoStyle').css("color", "#7a21ff");
+			$('.rangoStyle').css("color", "#7a21ff");
+			$('.tecnicaDes span').css("color", "white");
+			$('.tecnicaId span').css("color", "white");
+			$('.tecnicaId span').css("background", "#571caf");
+			$('.tecnicaId span').css("border", "#6e23dd");
+			$('.tecnicaCost span').css("color", "white");
+			
+			$('.mycode_quote').css("border", "1px solid #480da0");
+			$('.mycode_quote').css("background", "#2a203a");
+			$('.codeblock').css("border", "1px solid #480da0");
+			$('.codeblock').css("background", "#2a203a");
+			
+			// tecnica_spoiler_content
+			$('#modoNoche').html(`
+				<img onclick="toggleModoNoche()" class="modo_dia" src="/images/op/misc/ModoDia_One_Piece_Gaiden_Foro_Rol.png">					 
+			 `);
+		} else {
+			$('.post_body').css("color", "black");
+			$('.post_content').css("background-color", "#ffeed2");
+			// // $('.post_controls').css('background-color', '#ffeed2');
+			// $('#posts_container').css('background-color', '#ffeed2');
+			$('.tfoot').css('background-color', '#ffeed2');
+			$('.post').css('background-color', '#ffeed2');
+			$('.op_spoiler_content').css('background-color', 'rgba(232,207,144,0.65)');
+			$('[data-spoiler="1"] button').css('background', '#e8c96a');
+			
+			$('.tecnica_spoiler_content').css('background-color', 'rgb(255 230 189)');
+			$('.tecnicaLvl span').css("color", "#ff5a00");
+			$('.tecnicaLvl span').css("color", "#ff5a00");
+			$('.tecnicaDes span').css("color", "black");
+			$('.tecnicaId span').css("color", "white");
+			$('.tecnicaId span').css("background", "#ff6d1d");
+			$('.tecnicaId span').css("border", "#843105");
+			$('.tecnicaCost span').css("color", "black");
+			
+			$('.mycode_quote').css("border", "1px solid #eb7601");
+			$('.mycode_quote').css("background", "#ffe6bd");
+			$('.codeblock').css("border", "1px solid #eb7601");
+			$('.codeblock').css("background", "#ffe6bd");
+
+			$('#modoNoche').html(`
+				<img onclick="toggleModoNoche()" class="modo_noche" src="/images/op/misc/ModoNoche_One_Piece_Gaiden_Foro_Rol.png">					 
+			 `);
+		}
+		
+		if (modoLectura != 'true') {
+			$('.post_author').css('display', 'block');
+			$('.usuario-derecha').css('display', 'none');
+			$('.post_content').css('width', '847px');
+			$('.post_body').css('font-size', '15px');
+		} else {
+			$('.post_author').css('display', 'none');
+			$('.usuario-derecha').css('display', 'block');
+			$('.post_content').css('width', '1100px');
+			$('.post_body').css('font-size', '19px');
+		}
+		
+		const toggleModoNoche = () => {
+			if (modoNoche != 'true') {
+				$('.post_body').css("color", "#d9d6d6");
+				$('.post_content').css("background-color", "#1a1423");
+				// $('.post_controls').css('background-color', '#1a1423');
+				// $('#posts_container').css('background-color', '#1a1423');
+				$('.tfoot').css('background-color', '#1a1423');
+				$('.post').css('background-color', '#1a1423');
+				$('.op_spoiler_content').css('background-color', 'rgba(190, 129, 165, 0.69)');
+				$('[data-spoiler="1"] button').css('background', '#c73870');
+				
+				$('.tecnica_spoiler_content').css('background-color', '#2a203a');
+				$('.rangoStyle').css("color", "#7a21ff");
+				$('.rangoStyle').css("color", "#7a21ff");
+				$('.tecnicaDes span').css("color", "white");
+				$('.tecnicaId span').css("color", "white");
+				$('.tecnicaId span').css("background", "#571caf");
+				$('.tecnicaId span').css("border", "#6e23dd");
+				$('.tecnicaCost span').css("color", "white");
+				
+				$('.mycode_quote').css("border", "1px solid #480da0");
+				$('.mycode_quote').css("background", "#2a203a");
+				$('.codeblock').css("border", "1px solid #480da0");
+				$('.codeblock').css("background", "#2a203a");
+				
+				$('#modoNoche').html(`
+					<img onclick="toggleModoNoche()" class="modo_dia" src="/images/op/misc/ModoDia_One_Piece_Gaiden_Foro_Rol.png">					 
+				 `);
+				localStorage.setItem("modoNoche", 'true');
+				modoNoche = 'true';
+			} else {
+				$('.post_body').css("color", "black");
+				$('.post_content').css("background-color", "#ffeed2");
+				// $('.post_controls').css('background-color', '#ffeed2');
+				// $('#posts_container').css('background-color', '#ffeed2');
+				$('.tfoot').css('background-color', '#ffeed2');
+				$('.post').css('background-color', '#ffeed2');
+				$('.op_spoiler_content').css('background-color', 'rgba(232,207,144,0.65)');
+				$('[data-spoiler="1"] button').css('background', '#e8c96a');
+				
+				$('.tecnica_spoiler_content').css('background-color', 'rgb(255 230 189)');
+				$('.tecnicaLvl span').css("color", "#ff5a00");
+				$('.tecnicaLvl span').css("color", "#ff5a00");
+				$('.tecnicaDes span').css("color", "black");
+				$('.tecnicaId span').css("color", "white");
+				$('.tecnicaId span').css("background", "#ff6d1d");
+				$('.tecnicaId span').css("border", "#843105");
+				$('.tecnicaCost span').css("color", "black");
+				
+				$('.mycode_quote').css("border", "1px solid #eb7601");
+				$('.mycode_quote').css("background", "#ffe6bd");
+				$('.codeblock').css("border", "1px solid #eb7601");
+				$('.codeblock').css("background", "#ffe6bd");
+
+				$('#modoNoche').html(`
+					<img onclick="toggleModoNoche()" class="modo_noche" src="/images/op/misc/ModoNoche_One_Piece_Gaiden_Foro_Rol.png">					 
+				 `);
+				localStorage.setItem("modoNoche", 'false');
+				modoNoche = 'false';
+			}
+		};
+		
+		const toggleModoLectura = () => {
+			if (modoLectura == 'true') {
+				$('.post_author').css('display', 'block');
+				$('.usuario-derecha').css('display', 'none');
+				$('.post_content').css('width', '847px');
+				$('.post_body').css('font-size', '15px');
+				localStorage.setItem("modoLectura", 'false');
+				modoLectura = 'false';
+			} else {
+				$('.post_author').css('display', 'none');
+				$('.usuario-derecha').css('display', 'block');
+				$('.post_content').css('width', '1100px');
+				$('.post_body').css('font-size', '19px');
+				localStorage.setItem("modoLectura", 'true');
+				modoLectura = 'true';
+			}
+		};
+		
+		// toggleModoNoche();
+		// toggleModoLectura();
+		
+		var thread_deleted = "{$thread_deleted}";
+		if(thread_deleted == "1") {
+			$("#quick_reply_form, .new_reply_button, .thread_tools, .inline_rating").hide();
+			$("#moderator_options_selector option.option_mirage").attr("disabled","disabled");
+		}
+		
+		function sleep (time) {
+		  return new Promise((resolve) => setTimeout(resolve, time));
+		}
+	</script>
+
+</body>
+</html>

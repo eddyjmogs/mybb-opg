@@ -1,0 +1,285 @@
+<html>
+<head>
+<title>{$mybb->settings['bbname']} - {$lang->edit_post}</title>
+{$headerinclude}
+{$post_javascript}
+</head>
+<body>
+{$header}
+{$preview}
+{$post_errors}
+{$attacherror}
+{$moderation_notice}
+<!-- {deletebox} -->
+<form id="editpost" action="editpost.php?pid={$pid}&amp;processed=1" method="post" enctype="multipart/form-data" name="input">
+<input type="hidden" name="my_post_key" value="{$mybb->post_code}" />
+<table border="0" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" class="tborder">
+<tr>
+<td class="thead" colspan="2"><strong>{$lang->edit_post}</strong></td>
+</tr>
+<!-- {loginbox} -->
+<tr>
+<!-- <td class="trow2"><strong>{lang->subject}</strong></td> -->
+<td class="trow2" colspan="2">
+	<if $prefixselect then><strong style=" margin-right: 114px; ">Prefijo:</strong></if><strong>Título:</strong><br> {$prefixselect}<input type="text" class="textbox" name="subject" size="40" maxlength="85" value="{$subject}" tabindex="1" />
+	<div style="display: inline; float: right; margin-top: 8px;">
+		<div style="background-color: #f0f0f0; border: 1px solid #ccc; padding: 3px 6px; margin-bottom: 3px; border-radius: 3px; font-size: 11px; color: #666;">
+			<strong>Mínimo de palabras</strong> - Post: 300 | Autonarradas: 800 | Frutas: Normativa
+		</div>
+		<strong>Palabras</strong>: <span id="palabras">0</span>
+	</div>
+</td>
+</tr>
+<!-- {posticons} -->
+<tr>
+<!-- <td class="trow2" valign="top"><strong>{$lang->your_message}</strong><br /><div style="text-align: center;">{$smilieinserter}</div></td> -->
+<td class="trow2" colspan="2"><strong>Mensaje:</strong><br>
+<textarea name="message" id="message" rows="20" cols="70" tabindex="3">{$message}</textarea>
+{$codebuttons}
+</td>
+</tr>
+{$editreason}
+<!-- {postoptions}
+{subscriptionmethod} 
+{pollbox} -->
+</table>
+<!-- {attachbox} -->
+<br />
+<div align="center"><input type="submit" class="button" name="submitbutton" value="{$lang->update_post}" tabindex="3" accesskey="s" />  <input type="submit" class="button" name="previewpost" value="{$lang->preview_post}" tabindex="4" /></div>
+<input type="hidden" name="action" value="do_editpost" />
+<input type="hidden" name="attachmentaid" value="" />
+<input type="hidden" name="attachmentact" value="" />
+</form>
+{$footer}
+<script>
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+	
+async function contarPalabras() {
+	await sleep(100);
+	console.log('Contar palabras automáticamente.');
+	$($('.sceditor-container')[0].children[1].contentDocument.body).on('focus', function() {
+	  before = $(this).html();
+	}).on('keyup', function() { 
+	  if (before != $(this).html()) { $(this).trigger('change'); }
+	});
+
+	$($('.sceditor-container')[0].children[1].contentDocument.body).on('change', function() {
+		const palabras = $('.sceditor-container')[0].children[1].contentDocument.body.innerText.split('\n').filter(i => i != '').join(' ').split(' ').length;
+		// console.log(palabras);
+		$('#palabras')[0].innerText = palabras;
+	});
+}
+contarPalabras();
+</script>
+<script type="text/javascript">
+	let pestana = null;
+	$('.pestanas_avatar').on( "click", function() {
+	  pestana = $(this);
+	  let pid = pestana.data('pid');
+	  let tipo = pestana.data('tipo');
+
+	  $('#pestana_avatar' + pid).removeClass('pestana_active');
+	  $('#pestana_inventario' + pid).removeClass('pestana_active');
+	  $('#pestana_stats' + pid).removeClass('pestana_active');
+
+	  if (tipo == 'avatar') {
+		  $('#avatar_inventario' + pid).css('opacity', '0');
+		  $('#avatar_stats' + pid).css('opacity', '0');
+	  }
+
+	  if (tipo == 'stats') {
+		  $('#avatar_inventario' + pid).css('opacity', '0');
+		  $('#avatar_stats' + pid).css('opacity', '1');
+	  }	
+
+	  if (tipo == 'inventario') {
+		  $('#avatar_stats' + pid).css('opacity', '0');
+		  $('#avatar_inventario' + pid).css('opacity', '1');
+	  }	
+
+	  $(pestana).addClass('pestana_active');
+	} );
+
+	const circularProgress = document.querySelectorAll(".circular-progress");
+
+	Array.from(circularProgress).forEach((progressBar) => {
+	  const progressValue = progressBar.querySelector(".percentage");
+	  const innerCircle = progressBar.querySelector(".inner-circle");
+	  let startValue = 0,
+		endValue = Number(progressBar.getAttribute("data-percentage")),
+		speed = 25,
+		progressColor = progressBar.getAttribute("data-progress-color"),
+		nivel = progressBar.getAttribute("data-nivel");
+
+	  const progress = setInterval(() => {
+		startValue++;
+		progressValue.textContent = nivel + '';
+		progressValue.style.color = progressColor;
+
+		innerCircle.style.backgroundColor = progressBar.getAttribute("data-inner-circle-color");
+
+		progressBar.style.background = `conic-gradient(` + progressColor + ` ` + startValue * 3.6 + `deg,` + progressBar.getAttribute("data-bg-color") + ` 0deg)`;
+		if (startValue === endValue) {
+		  clearInterval(progress);
+		}
+	  }, speed);
+	});
+
+
+	let post_content = $('.post_content');
+
+	for (let i = 0; i < post_content.length; i++) {
+		let height = post_content[i].offsetHeight;
+		if (height < 610) { height = 610; }
+		$($('.post_author')[i]).css('height', height);
+	}
+
+	$('.spoiler').on('click', function() {
+		for (let i = 0; i < post_content.length; i++) {
+			let height = post_content[i].offsetHeight;
+			if (height < 610) { height = 610; }
+			$($('.post_author')[i]).css('height', height);
+		}
+	});
+
+	let modoLectura = localStorage.getItem("modoLectura");
+	let modoNoche = localStorage.getItem("modoNoche");
+
+	if (modoNoche == 'true') {
+		$('.post_body').css("color", "#d9d6d6");
+		$('.post_content').css("background-color", "#1a1423");
+		// $('.post_controls').css('background-color', '#1a1423');
+		// $('#posts_container').css('background-color', '#1a1423');
+		$('.tfoot').css('background-color', '#1a1423');
+		$('.post').css('background-color', '#1a1423');
+		$('.spoiler_content').css('background-color', '#2a203a');
+
+		$('.tecnica_spoiler_content').css('background-color', '#2a203a');
+		$('.rangoStyle').css("color", "#7a21ff");
+		$('.rangoStyle').css("color", "#7a21ff");
+		$('.tecnicaDes span').css("color", "white");
+		$('.tecnicaId span').css("color", "white");
+		$('.tecnicaId span').css("background", "#571caf");
+		$('.tecnicaId span').css("border", "#6e23dd");
+		$('.tecnicaCost span').css("color", "white");
+
+		// tecnica_spoiler_content
+		$('#modoNoche').html(`
+			<img onclick="toggleModoNoche()" class="modo_dia" src="/images/op/misc/ModoDia_One_Piece_Gaiden_Foro_Rol.png">					 
+		 `);
+	} else {
+		$('.post_body').css("color", "black");
+		$('.post_content').css("background-color", "#ffeed2");
+		// // $('.post_controls').css('background-color', '#ffeed2');
+		// $('#posts_container').css('background-color', '#ffeed2');
+		$('.tfoot').css('background-color', '#ffeed2');
+		$('.post').css('background-color', '#ffeed2');
+		$('.spoiler_content').css('background-color', '#ffe6bd');
+
+		$('.tecnica_spoiler_content').css('background-color', 'rgb(255 230 189)');
+		$('.tecnicaLvl span').css("color", "#ff5a00");
+		$('.tecnicaLvl span').css("color", "#ff5a00");
+		$('.tecnicaDes span').css("color", "black");
+		$('.tecnicaId span').css("color", "white");
+		$('.tecnicaId span').css("background", "#ff6d1d");
+		$('.tecnicaId span').css("border", "#843105");
+		$('.tecnicaCost span').css("color", "black");
+
+		$('#modoNoche').html(`
+			<img onclick="toggleModoNoche()" class="modo_noche" src="/images/op/misc/ModoNoche_One_Piece_Gaiden_Foro_Rol.png">					 
+		 `);
+	}
+
+	if (modoLectura != 'true') {
+		$('.post_author').css('display', 'block');
+		$('.usuario-derecha').css('display', 'none');
+		$('.post_content').css('width', '847px');
+		$('.post_body').css('font-size', '15px');
+	} else {
+		$('.post_author').css('display', 'none');
+		$('.usuario-derecha').css('display', 'block');
+		$('.post_content').css('width', '1100px');
+		$('.post_body').css('font-size', '19px');
+	}
+
+	const toggleModoNoche = () => {
+		if (modoNoche != 'true') {
+			$('.post_body').css("color", "#d9d6d6");
+			$('.post_content').css("background-color", "#1a1423");
+			// $('.post_controls').css('background-color', '#1a1423');
+			// $('#posts_container').css('background-color', '#1a1423');
+			$('.tfoot').css('background-color', '#1a1423');
+			$('.post').css('background-color', '#1a1423');
+			$('.spoiler_content').css('background-color', '#2a203a');
+
+			$('.tecnica_spoiler_content').css('background-color', '#2a203a');
+			$('.rangoStyle').css("color", "#7a21ff");
+			$('.rangoStyle').css("color", "#7a21ff");
+			$('.tecnicaDes span').css("color", "white");
+			$('.tecnicaId span').css("color", "white");
+			$('.tecnicaId span').css("background", "#571caf");
+			$('.tecnicaId span').css("border", "#6e23dd");
+			$('.tecnicaCost span').css("color", "white");
+
+			$('#modoNoche').html(`
+				<img onclick="toggleModoNoche()" class="modo_dia" src="/images/op/misc/ModoDia_One_Piece_Gaiden_Foro_Rol.png">					 
+			 `);
+			localStorage.setItem("modoNoche", 'true');
+			modoNoche = 'true';
+		} else {
+			$('.post_body').css("color", "black");
+			$('.post_content').css("background-color", "#ffeed2");
+			// $('.post_controls').css('background-color', '#ffeed2');
+			// $('#posts_container').css('background-color', '#ffeed2');
+			$('.tfoot').css('background-color', '#ffeed2');
+			$('.post').css('background-color', '#ffeed2');
+			$('.spoiler_content').css('background-color', '#ffe6bd');
+
+			$('.tecnica_spoiler_content').css('background-color', 'rgb(255 230 189)');
+			$('.tecnicaLvl span').css("color", "#ff5a00");
+			$('.tecnicaLvl span').css("color", "#ff5a00");
+			$('.tecnicaDes span').css("color", "black");
+			$('.tecnicaId span').css("color", "white");
+			$('.tecnicaId span').css("background", "#ff6d1d");
+			$('.tecnicaId span').css("border", "#843105");
+			$('.tecnicaCost span').css("color", "black");
+
+			$('#modoNoche').html(`
+				<img onclick="toggleModoNoche()" class="modo_noche" src="/images/op/misc/ModoNoche_One_Piece_Gaiden_Foro_Rol.png">					 
+			 `);
+			localStorage.setItem("modoNoche", 'false');
+			modoNoche = 'false';
+		}
+	};
+
+	const toggleModoLectura = () => {
+		if (modoLectura == 'true') {
+			$('.post_author').css('display', 'block');
+			$('.usuario-derecha').css('display', 'none');
+			$('.post_content').css('width', '847px');
+			$('.post_body').css('font-size', '15px');
+			localStorage.setItem("modoLectura", 'false');
+			modoLectura = 'false';
+		} else {
+			$('.post_author').css('display', 'none');
+			$('.usuario-derecha').css('display', 'block');
+			$('.post_content').css('width', '1100px');
+			$('.post_body').css('font-size', '19px');
+			localStorage.setItem("modoLectura", 'true');
+			modoLectura = 'true';
+		}
+	};
+
+	// toggleModoNoche();
+	// toggleModoLectura();
+
+	var thread_deleted = "{$thread_deleted}";
+	if(thread_deleted == "1") {
+		$("#quick_reply_form, .new_reply_button, .thread_tools, .inline_rating").hide();
+		$("#moderator_options_selector option.option_mirage").attr("disabled","disabled");
+	}
+</script>
+</body>
+</html>

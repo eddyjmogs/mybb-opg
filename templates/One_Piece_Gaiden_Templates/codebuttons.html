@@ -1,0 +1,132 @@
+<link rel="stylesheet" href="{$mybb->asset_url}/jscripts/sceditor/themes/{$theme['editortheme']}" type="text/css" media="all" />
+
+<style type="text/css">
+	
+.sceditor-button-personaje div  {
+	background: url(/images/op/misc/code_personaje.png);
+}
+	
+.sceditor-button-tecnica div  {
+	background: url(/images/op/misc/code_tecnica.png);
+}
+	
+.sceditor-button-tecnica2 div  {
+	background: url(/images/op/misc/code_tecnica.png);
+}
+	
+.sceditor-button-spoiler div  {
+	background: url(/images/op/misc/code_spoiler.png);
+}
+	
+.sceditor-button-hide div  {
+	background: url(/images/op/misc/code_hide.png);
+}
+	
+.sceditor-button-vida div  {
+	background: url(/images/op/misc/code_vida.png);
+}
+
+.sceditor-button-energia div  {
+	background: url(/images/op/misc/code_energia.png);
+}
+	
+.sceditor-button-haki div  {
+	background: url(/images/op/misc/code_haki.png);
+}
+	
+.sceditor-button-arma div  {
+	background: url(/images/op/misc/code_arma.png);
+}
+	
+.sceditor-button-dado div  {
+	background: url(/images/op/misc/code_dado.png);
+}
+
+/* === BOTÓN DEL SISTEMA DE COMBATE === */
+.sceditor-button-combate {
+	display: none;
+}
+.sceditor-button-combate div {
+	background: linear-gradient(135deg, #ffd700, #ff8c00) !important;
+	border-radius: 3px;
+	position: relative;
+}
+.sceditor-button-combate div::after {
+	content: '⚔️';
+	font-size: 14px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+</style>
+
+<script type="text/javascript" src="{$mybb->asset_url}/jscripts/sceditor/jquery.sceditor.bbcode.js"></script>
+<script type="text/javascript" src="{$mybb->asset_url}/jscripts/bbcodes_sceditor.js"></script>
+<script type="text/javascript" src="{$mybb->asset_url}/jscripts/sceditor/plugins/undo.js?ver=1821"></script>
+<script type="text/javascript" src="{$mybb->asset_url}/jscripts/sceditor/icons/monocons.js?ver=1821"></script>
+<!-- Sistema de Combate -->
+<script type="text/javascript" src="{$mybb->asset_url}/jscripts/belico/combat_system.js?ver=101"></script>
+<script type="text/javascript">
+// Registrar comando del Sistema de Combate ANTES de inicializar el editor
+$.sceditor.command.set('combate', {
+	exec: function() {
+		if (typeof CombatSystem !== 'undefined') {
+			CombatSystem.open();
+		} else {
+			alert('El sistema de combate no está disponible. Recarga la página.');
+		}
+	},
+	txtExec: function() {
+		if (typeof CombatSystem !== 'undefined') {
+			CombatSystem.open();
+		}
+	},
+	tooltip: "Sistema de Combate"
+});
+
+var partialmode = {$mybb->settings['partialmode']},
+opt_editor = {
+	plugins: "undo",
+	format: "bbcode",
+	icons: "monocons",
+	bbcodeTrim: true,
+	style: "{$mybb->asset_url}/jscripts/sceditor/styles/jquery.sceditor.{$theme['editortheme']}?ver=1821",
+	rtl: {$lang->settings['rtl']},
+	locale: "mybblang",
+	width: "100%",
+	enablePasteFiltering: true,
+	autoUpdate: true,
+	emoticonsEnabled: {$emoticons_enabled},
+	emoticons: {
+		// Emoticons to be included in the dropdown
+		dropdown: {
+			{$dropdownsmilies}
+		},
+		// Emoticons to be included in the more section
+		more: {
+			{$moresmilies}
+		},
+		// Emoticons that are not shown in the dropdown but will still be converted. Can be used for things like aliases
+		hidden: {
+			{$hiddensmilies}
+		}
+	},
+	emoticonsCompat: true,
+	toolbar: "bold,italic,underline,strike||tecnica,personaje,hide,vida,energia,haki,arma,dado|left,center,right,justify|font,size,color,removeformat|horizontalrule,image,link,unlink,video,bulletlist,orderedlist|||quote|maximize,source,combate",
+};
+{$editor_language}
+$(function() {
+	$("#{$bind}").sceditor(opt_editor);
+	MyBBEditor = $("#{$bind}").sceditor("instance");
+	{$sourcemode}
+	
+	var userUid = {$mybb->user['uid']};
+	if (userUid === 276 || userUid === 850 || userUid === 268 || userUid === 157 || userUid === 123 || userUid === 279) {
+		setTimeout(function() {
+			$('.sceditor-button-combate').css('display', 'inline-block');
+		}, 100);
+	}
+});
+</script>

@@ -1,0 +1,475 @@
+<html>
+<head>
+<title>{$lang->post_reply_to}</title>
+{$headerinclude}
+{$post_javascript}
+<!-- Mapa Interactivo - Sistema Modular OPG -->
+<script src="{$mybb->settings['bburl']}/jscripts/mapaInteractivo/core.js"></script>
+{$opg_avatar_script}
+{$opg_positions_script}
+{$opg_pos_script}
+<script src="{$mybb->settings['bburl']}/jscripts/mapaInteractivo/mapaConfig.js"></script>
+<script src="{$mybb->settings['bburl']}/jscripts/mapaInteractivo/mapaInteractivo.js"></script>
+<script src="{$mybb->settings['bburl']}/jscripts/mapaInteractivo/mapaControls.js"></script>
+<script src="{$mybb->settings['bburl']}/jscripts/mapaInteractivo/mapaPersonajes.js"></script>
+</head>
+<body>
+{$header}
+{$preview}
+{$maximageserror}
+{$attacherror}
+{$reply_errors}
+{$moderation_notice}
+
+<!-- Contenedor del Mapa Interactivo -->
+<div id="interactive-map-container" style="display: none; width: 1100px; margin: 0 auto 20px auto; background: #2a2a2a; border: 2px solid #444; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+	<div id="map-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;">
+		<h3 style="margin: 0; color: white; font-size: 16px;">
+			<i class="fa fa-map"></i> Mapa del Escenario
+		</h3>
+		<div style="display: flex; gap: 10px;">
+			<button id="set-initial-position-btn" style="background: rgba(46, 213, 115, 0.3); border: 1px solid rgba(46, 213, 115, 0.6); color: #2ed573; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; display: none;">
+				<i class="fa fa-map-pin"></i> Establecer Inicio
+			</button>
+			<button id="toggle-map-btn" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+				<i class="fa fa-eye-slash"></i> Ocultar
+			</button>
+		</div>
+	</div>
+	<div id="map-content" style="width: 1100px; height: 792.36px; background: #1a1a1a; position: relative; overflow: hidden; user-select: none;">
+		<img id="map-image" src="" draggable="false" style="width: 100%; height: 100%; object-fit: contain; user-drag: none; -webkit-user-drag: none; pointer-events: auto;" />
+		<div id="map-markers-layer" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+			<!-- Los marcadores de personajes se añadirán aquí dinámicamente -->
+		</div>
+	</div>
+</div>
+
+<form action="newreply.php?tid={$tid}&amp;processed=1" method="post" enctype="multipart/form-data" name="input">
+<input type="hidden" name="my_post_key" value="{$mybb->post_code}" />
+<table border="0" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" class="tborder">
+<tr>
+<td class="thead" colspan="2"><strong>{$lang->post_new_reply}</strong></td>
+</tr>
+<tr>
+<td class="tcat" colspan="2"><span class="smalltext"><strong>{$lang->reply_to}</strong><a name="switch" id="switch"></a></span></td>
+</tr>
+<!-- {loginbox} -->
+<tr>
+<!-- <td class="trow2" width="5%" ></td> -->
+<td class="trow2"><strong>Título:</strong><br> <input type="text" class="textbox" name="subject" size="40" maxlength="85" value="{$subject}" tabindex="1" /> 
+<div style=" display: inline; float: right; margin-top: 8px; ">
+	<div style="background-color: #f0f0f0; border: 1px solid #ccc; padding: 3px 6px; margin-bottom: 3px; border-radius: 3px; font-size: 11px; color: #666;">
+		<strong>Mínimo de palabras</strong> - Post: 300 | Autonarradas: 800 | Frutas: Normativa
+	</div>
+	<strong>Palabras</strong>: <span id="palabras">0</span>
+</div></td>
+</tr>
+<!-- {posticons} -->
+<tr>
+<!-- <td class="trow2" valign="top"><strong>Mensaje:</strong><br /><br /></td> -->
+<td class="trow2" colspan="2"><strong>Mensaje:</strong><br>
+<textarea id="message" name="message" rows="20" cols="70" tabindex="2" >{$message}</textarea>
+{$codebuttons}
+{$multiquote_external}
+</td>
+</tr>
+{$postoptions}
+{$modoptions}
+<!-- {subscriptionmethod} -->
+{$captcha} 
+</table>
+<!-- {attachbox} -->
+<br />
+<div align="center">{$as_post}&nbsp;<input type="submit" class="button" name="submit" value="{$lang->post_reply}" tabindex="3" accesskey="s" />  <input type="submit" class="button" name="previewpost" value="{$lang->preview_post}" tabindex="4" />{$savedraftbutton}
+<button id="recuperar-post" class="button">Recuperar post</button>	
+</div>
+<input type="hidden" name="action" value="do_newreply" />
+<input type="hidden" name="replyto" value="{$replyto}" />
+<input type="hidden" name="posthash" value="{$posthash}" />
+<input type="hidden" name="attachmentaid" value="" />
+<input type="hidden" name="attachmentact" value="" />
+<input type="hidden" name="quoted_ids" value="{$quoted_ids}" />
+<input type="hidden" name="tid" value="{$tid}" />
+<input type="hidden" name="map_initial_fixed" id="map_initial_fixed" value="0">
+<input type="hidden" name="map_initial_x" id="map_initial_x" value="">
+<input type="hidden" name="map_initial_y" id="map_initial_y" value="">
+<input type="hidden" name="map_initial_fid" id="map_initial_fid" value="0">
+{$editdraftpid}
+</form>
+{$forumrules}
+{$threadreview}
+{$footer}
+<style>
+/* Estilo para hacer el botón Bélico más largo */
+.sceditor-button-belico {
+	min-width: 80px !important;
+	width: auto !important;
+}
+
+.sceditor-button-belico div {
+	padding: 0 10px !important;
+	white-space: nowrap !important;
+}
+
+/* Ocultar el botón por defecto */
+.sceditor-button-belico {
+	display: none !important;
+}
+</style>
+<script>
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+	
+$('#recuperar-post').on('click', function(event) {
+	event.preventDefault();
+	if ($('.sceditor-button-source').hasClass('active')) {
+		alert('Sólo puedes recuperar lo último escrito en el post si el botón de "Ver código de Fuente (<>)" no está apretado/activo.');
+	} else {
+		if ($($('.sceditor-container')[0].children[1].contentDocument.body).html() == localStorage.getItem('user-post')) {
+			alert('El último texto guardado es idéntico al que está actual en la página. No hay nada que recuperar.');
+		} else {
+			$($('.sceditor-container')[0].children[1].contentDocument.body).html(localStorage.getItem('user-post'));
+		}
+	}
+});
+	
+	
+async function contarPalabras() {
+	await sleep(100);
+	console.log('Contar palabras automáticamente.');
+	$($('.sceditor-container')[0].children[1].contentDocument.body).on('focus', function() {
+	  before = $(this).html();
+	}).on('keyup', function() { 
+	  if (before != $(this).html()) { $(this).trigger('change'); }
+	});
+
+	$($('.sceditor-container')[0].children[1].contentDocument.body).on('change', function() {
+		const palabras = $('.sceditor-container')[0].children[1].contentDocument.body.innerText.split('\n').filter(i => i != '').join(' ').split(' ').length;
+		// console.log(palabras);
+		var palabrasEl = $('#palabras')[0];
+		if (palabrasEl) {
+			palabrasEl.innerText = palabras;
+		}
+		if (parseInt(palabras) >= 10) {
+			localStorage.setItem('user-post', $($('.sceditor-container')[0].children[1].contentDocument.body).html());
+		}
+	});
+}
+contarPalabras();
+
+// Sistema de Mapa Interactivo - Inicialización con módulos OPG
+$(document).ready(function() {
+	if (typeof OPG === 'undefined') {
+		console.error('❌ OPG no está definido. Verifica que core.js esté cargado.');
+		return;
+	}
+	
+	OPG.onReady(function() {
+		// Configurar variables globales para OPG
+		window.CURRENT_UID = {$mybb->user['uid']};
+		window.IS_STAFF = {$mybb->usergroup['cancp']} == 1;
+		<if $replyto then>window.IS_FIRST_POST = false;<else />window.IS_FIRST_POST = true;</if>
+		
+		console.log('[Mapa] Inicializando... isFirstPost:', window.IS_FIRST_POST);
+		
+		// Inicializar mapa interactivo
+		if (typeof OPG.mapaInteractivo !== 'undefined') {
+			OPG.mapaInteractivo.init({$tid}, window.IS_FIRST_POST);
+		
+        // Mostrar el contenedor si hay posiciones o si el mapa está activo
+        if (Array.isArray(OPG.initialPositions) && OPG.initialPositions.length > 0) {
+        document.getElementById('interactive-map-container').style.display = 'block';
+        }
+
+        // Cuando el mapa esté listo, pinta todos los marcadores persistentes
+        OPG.bus.on('mapa:loaded', function() {
+        if (Array.isArray(OPG.initialPositions)) {
+            OPG.initialPositions.forEach(function(p) {
+            // Normaliza campos (x,y en %) y datos de usuario
+            var marker = {
+                uid: p.uid,
+                username: p.username,
+                avatar: p.avatar,
+                fid: p.fid,
+                x: p.x,       // 0..100
+                y: p.y        // 0..100
+            };
+
+            // Usa tu API de marcadores (ajusta al método real de tu módulo)
+            if (OPG.mapaPersonajes && typeof OPG.mapaPersonajes.addPlayer === 'function') {
+                OPG.mapaPersonajes.addPlayer(marker);
+            } else if (OPG.mapaInteractivo && typeof OPG.mapaInteractivo.addMarker === 'function') {
+                OPG.mapaInteractivo.addMarker(marker);
+            }
+            });
+        }
+
+        // Si además quieres usar la última posición “destacada” (OPG.initialPos)
+        if (OPG.initialPos && OPG.initialPos.x != null && OPG.initialPos.y != null) {
+            var me = {
+            uid: OPG.initialPos.uid,
+            username: OPG.initialPos.username,
+            avatar: OPG.initialPos.avatar,
+            fid: OPG.initialPos.fid,
+            x: OPG.initialPos.x,
+            y: OPG.initialPos.y
+            };
+            if (OPG.mapaPersonajes && typeof OPG.mapaPersonajes.addPlayer === 'function') {
+            OPG.mapaPersonajes.addPlayer(me);
+            } else if (OPG.mapaInteractivo && typeof OPG.mapaInteractivo.addMarker === 'function') {
+            OPG.mapaInteractivo.addMarker(me);
+            }
+        }
+        });
+
+		// Eventos del mapa
+		OPG.bus.on('mapa:loaded', function(data) {
+			console.log('✅ Mapa cargado:', data.url);
+			
+			// Ejemplo: Agregar marcadores automáticamente desde posts
+			// Descomentar para activar:
+			// var players = OPG.mapaPersonajes.loadFromThread();
+			// players.forEach(function(p) { OPG.mapaPersonajes.addPlayer(p); });
+		});
+		
+		OPG.bus.on('mapa:marker-click', function(data) {
+			console.log('? Click en marcador:', data.marker.label);
+			// Aquí se puede mostrar info del personaje en un modal
+		});
+		
+		OPG.bus.on('mapa:zoom', function(data) {
+			console.log('? Zoom:', Math.round(data.zoom * 100) + '%');
+		});
+		} else {
+			console.error('❌ Sistema OPG.mapaInteractivo no está cargado. Verifica que los scripts estén en /jscripts/mapaInteractivo/');
+		}
+	});
+});
+
+// Mostrar botón Bélico solo para uid 850
+var userUid = {$mybb->user['uid']};
+if (userUid === 850) {
+	setTimeout(function() {
+		$('.sceditor-button-belico').css('display', 'inline-block');
+	}, 100);
+}
+</script>
+<script type="text/javascript">
+	let pestana = null;
+	$('.pestanas_avatar').on( "click", function() {
+	  pestana = $(this);
+	  let pid = pestana.data('pid');
+	  let tipo = pestana.data('tipo');
+
+	  $('#pestana_avatar' + pid).removeClass('pestana_active');
+	  $('#pestana_inventario' + pid).removeClass('pestana_active');
+	  $('#pestana_stats' + pid).removeClass('pestana_active');
+
+	  if (tipo == 'avatar') {
+		  $('#avatar_inventario' + pid).css('opacity', '0');
+		  $('#avatar_stats' + pid).css('opacity', '0');
+	  }
+
+	  if (tipo == 'stats') {
+		  $('#avatar_inventario' + pid).css('opacity', '0');
+		  $('#avatar_stats' + pid).css('opacity', '1');
+	  }	
+
+	  if (tipo == 'inventario') {
+		  $('#avatar_stats' + pid).css('opacity', '0');
+		  $('#avatar_inventario' + pid).css('opacity', '1');
+	  }	
+
+	  $(pestana).addClass('pestana_active');
+	} );
+
+	const circularProgress = document.querySelectorAll(".circular-progress");
+
+	Array.from(circularProgress).forEach((progressBar) => {
+	  const progressValue = progressBar.querySelector(".percentage");
+	  const innerCircle = progressBar.querySelector(".inner-circle");
+	  
+	  // Validar que los elementos existan
+	  if (!progressValue || !innerCircle) return;
+	  
+	  let startValue = 0,
+		endValue = Number(progressBar.getAttribute("data-percentage")),
+		speed = 25,
+		progressColor = progressBar.getAttribute("data-progress-color"),
+		nivel = progressBar.getAttribute("data-nivel");
+
+	  const progress = setInterval(() => {
+		startValue++;
+		if (progressValue) progressValue.textContent = nivel + '';
+		if (progressValue) progressValue.style.color = progressColor;
+
+		if (innerCircle) innerCircle.style.backgroundColor = progressBar.getAttribute("data-inner-circle-color");
+
+		progressBar.style.background = `conic-gradient(` + progressColor + ` ` + startValue * 3.6 + `deg,` + progressBar.getAttribute("data-bg-color") + ` 0deg)`;
+		if (startValue === endValue) {
+		  clearInterval(progress);
+		}
+	  }, speed);
+	});
+
+
+	let post_content = $('.post_content');
+
+	for (let i = 0; i < post_content.length; i++) {
+		if (!post_content[i]) continue;
+		let height = post_content[i].offsetHeight;
+		if (height < 610) { height = 610; }
+		var postAuthor = $('.post_author')[i];
+		if (postAuthor) $(postAuthor).css('height', height);
+	}
+
+	$('.spoiler').on('click', function() {
+		for (let i = 0; i < post_content.length; i++) {
+			if (!post_content[i]) continue;
+			let height = post_content[i].offsetHeight;
+			if (height < 610) { height = 610; }
+			var postAuthor = $('.post_author')[i];
+			if (postAuthor) $(postAuthor).css('height', height);
+		}
+	});
+
+	let modoLectura = localStorage.getItem("modoLectura");
+	let modoNoche = localStorage.getItem("modoNoche");
+
+	if (modoNoche == 'true') {
+		$('.post_body').css("color", "#d9d6d6");
+		$('.post_content').css("background-color", "#1a1423");
+		// $('.post_controls').css('background-color', '#1a1423');
+		// $('#posts_container').css('background-color', '#1a1423');
+		$('.tfoot').css('background-color', '#1a1423');
+		$('.post').css('background-color', '#1a1423');
+		$('.spoiler_content').css('background-color', '#2a203a');
+
+		$('.tecnica_spoiler_content').css('background-color', '#2a203a');
+		$('.rangoStyle').css("color", "#7a21ff");
+		$('.rangoStyle').css("color", "#7a21ff");
+		$('.tecnicaDes span').css("color", "white");
+		$('.tecnicaId span').css("color", "white");
+		$('.tecnicaId span').css("background", "#571caf");
+		$('.tecnicaId span').css("border", "#6e23dd");
+		$('.tecnicaCost span').css("color", "white");
+
+		// tecnica_spoiler_content
+		$('#modoNoche').html(`
+			<img onclick="toggleModoNoche()" class="modo_dia" src="/images/op/misc/ModoDia_One_Piece_Gaiden_Foro_Rol.png">					 
+		 `);
+	} else {
+		$('.post_body').css("color", "black");
+		$('.post_content').css("background-color", "#ffeed2");
+		// // $('.post_controls').css('background-color', '#ffeed2');
+		// $('#posts_container').css('background-color', '#ffeed2');
+		$('.tfoot').css('background-color', '#ffeed2');
+		$('.post').css('background-color', '#ffeed2');
+		$('.spoiler_content').css('background-color', '#ffe6bd');
+
+		$('.tecnica_spoiler_content').css('background-color', 'rgb(255 230 189)');
+		$('.tecnicaLvl span').css("color", "#ff5a00");
+		$('.tecnicaLvl span').css("color", "#ff5a00");
+		$('.tecnicaDes span').css("color", "black");
+		$('.tecnicaId span').css("color", "white");
+		$('.tecnicaId span').css("background", "#ff6d1d");
+		$('.tecnicaId span').css("border", "#843105");
+		$('.tecnicaCost span').css("color", "black");
+
+		$('#modoNoche').html(`
+			<img onclick="toggleModoNoche()" class="modo_noche" src="/images/op/misc/ModoNoche_One_Piece_Gaiden_Foro_Rol.png">					 
+		 `);
+	}
+
+	if (modoLectura != 'true') {
+		$('.post_author').css('display', 'block');
+		$('.usuario-derecha').css('display', 'none');
+		$('.post_content').css('width', '847px');
+		$('.post_body').css('font-size', '15px');
+	} else {
+		$('.post_author').css('display', 'none');
+		$('.usuario-derecha').css('display', 'block');
+		$('.post_content').css('width', '1100px');
+		$('.post_body').css('font-size', '19px');
+	}
+
+	const toggleModoNoche = () => {
+		if (modoNoche != 'true') {
+			$('.post_body').css("color", "#d9d6d6");
+			$('.post_content').css("background-color", "#1a1423");
+			// $('.post_controls').css('background-color', '#1a1423');
+			// $('#posts_container').css('background-color', '#1a1423');
+			$('.tfoot').css('background-color', '#1a1423');
+			$('.post').css('background-color', '#1a1423');
+			$('.spoiler_content').css('background-color', '#2a203a');
+
+			$('.tecnica_spoiler_content').css('background-color', '#2a203a');
+			$('.rangoStyle').css("color", "#7a21ff");
+			$('.rangoStyle').css("color", "#7a21ff");
+			$('.tecnicaDes span').css("color", "white");
+			$('.tecnicaId span').css("color", "white");
+			$('.tecnicaId span').css("background", "#571caf");
+			$('.tecnicaId span').css("border", "#6e23dd");
+			$('.tecnicaCost span').css("color", "white");
+
+			$('#modoNoche').html(`
+				<img onclick="toggleModoNoche()" class="modo_dia" src="/images/op/misc/ModoDia_One_Piece_Gaiden_Foro_Rol.png">					 
+			 `);
+			localStorage.setItem("modoNoche", 'true');
+			modoNoche = 'true';
+		} else {
+			$('.post_body').css("color", "black");
+			$('.post_content').css("background-color", "#ffeed2");
+			// $('.post_controls').css('background-color', '#ffeed2');
+			// $('#posts_container').css('background-color', '#ffeed2');
+			$('.tfoot').css('background-color', '#ffeed2');
+			$('.post').css('background-color', '#ffeed2');
+			$('.spoiler_content').css('background-color', '#ffe6bd');
+
+			$('.tecnica_spoiler_content').css('background-color', 'rgb(255 230 189)');
+			$('.tecnicaLvl span').css("color", "#ff5a00");
+			$('.tecnicaLvl span').css("color", "#ff5a00");
+			$('.tecnicaDes span').css("color", "black");
+			$('.tecnicaId span').css("color", "white");
+			$('.tecnicaId span').css("background", "#ff6d1d");
+			$('.tecnicaId span').css("border", "#843105");
+			$('.tecnicaCost span').css("color", "black");
+
+			$('#modoNoche').html(`
+				<img onclick="toggleModoNoche()" class="modo_noche" src="/images/op/misc/ModoNoche_One_Piece_Gaiden_Foro_Rol.png">					 
+			 `);
+			localStorage.setItem("modoNoche", 'false');
+			modoNoche = 'false';
+		}
+	};
+
+	const toggleModoLectura = () => {
+		if (modoLectura == 'true') {
+			$('.post_author').css('display', 'block');
+			$('.usuario-derecha').css('display', 'none');
+			$('.post_content').css('width', '847px');
+			$('.post_body').css('font-size', '15px');
+			localStorage.setItem("modoLectura", 'false');
+			modoLectura = 'false';
+		} else {
+			$('.post_author').css('display', 'none');
+			$('.usuario-derecha').css('display', 'block');
+			$('.post_content').css('width', '1100px');
+			$('.post_body').css('font-size', '19px');
+			localStorage.setItem("modoLectura", 'true');
+			modoLectura = 'true';
+		}
+	};
+
+	// toggleModoNoche();
+	// toggleModoLectura();
+
+	var thread_deleted = "{$thread_deleted}";
+	if(thread_deleted == "1") {
+		$("#quick_reply_form, .new_reply_button, .thread_tools, .inline_rating").hide();
+		$("#moderator_options_selector option.option_mirage").attr("disabled","disabled");
+	}
+</script>
+</body>
+</html>
