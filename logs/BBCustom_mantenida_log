@@ -1,0 +1,343 @@
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38627
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38629
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38635
+    [uid] => 304
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 304
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38636
+    [uid] => 304
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 304
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38639
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38641
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38643
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38649
+    [uid] => 304
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 304
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38650
+    [uid] => 304
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 304
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:46] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:46] Procesando post | Data: Array
+(
+    [pid] => 38651
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:46] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:53] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:53] Procesando post | Data: Array
+(
+    [pid] => 38652
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:53] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:53] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:53] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:53] Procesando post | Data: Array
+(
+    [pid] => 38654
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:53] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:53] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
+[2026-02-05 14:55:53] Iniciando BBCustom_mantenida_run
+[2026-02-05 14:55:53] Procesando post | Data: Array
+(
+    [pid] => 38655
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:53] Encontrado [mantenida] | Data: Array
+(
+    [tecnica_id] => KENB501
+)
+
+[2026-02-05 14:55:53] Consultando técnicas activas | Data: Array
+(
+    [uid] => 850
+    [tid] => 8135
+)
+
+[2026-02-05 14:55:53] ERROR en BBCustom_mantenida_run | Data: Array
+(
+    [error] => Unknown column 'tec.tecnica_id' in 'on clause'
+    [line] => 340
+    [trace] => #0 /home4/rovddqmy/public_html/inc/db_mysqli.php(340): mysqli_query(Object(mysqli), '\n            SE...')
+#1 /home4/rovddqmy/public_html/inc/plugins/BBCustom_mantenida.php(145): DB_MySQLi->query('\n            SE...')
+#2 /home4/rovddqmy/public_html/inc/class_plugins.php(142): BBCustom_mantenida_run(Array)
+#3 /home4/rovddqmy/public_html/inc/functions_post.php(1358): pluginSystem->run_hooks(Array, Array)
+#4 /home4/rovddqmy/public_html/showthread.php(1121): build_postbit(Array)
+#5 {main}
+)
+
