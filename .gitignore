@@ -1,0 +1,8 @@
+error_log
+errorz.log
+**/errorz.log
+*.log
+*.bak
+images/op/
+uploads/
+inc/debug_log.txt

@@ -1,0 +1,15 @@
+.avatarep_online_row{text-align:center;width:100px;display:inline-block;padding:0px 4px;}
+.avatarep_online_row_nor{width:auto;display:inline-block;padding:0px 2px;}
+.avatarep_image{display:block;width:80px;height:60px;border: 1px solid #cacaca; background: #fff;padding:8px;border-radius:4px;}
+.avatarep_span{text-align:center;}
+.ot_offline{border-left: 4px solid #bf5656;}
+.ot_online{border-left: 4px solid #399c3a;}
+@media screen and (max-width:650px){
+.avatarep_span{display:none;}
+.avatarep_online_row_nor{width:auto;display:inline-block;}
+.avatarep_span_nor{font-size: 8px;}
+.avatarep_image{width:28px;height:20px;padding:3px;border-radius:2px;}
+.avatarep_online_row{width:30px;}
+.ot_offline{border-left: 2px solid #bf5656;}
+.ot_online{border-left: 2px solid #399c3a;}
+}
