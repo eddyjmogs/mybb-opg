@@ -6,3 +6,5 @@ errorz.log
 images/op/
 uploads/
 inc/debug_log.txt
+inc/plugins/logs/BBCustom_mantenida_log
+.vscode
